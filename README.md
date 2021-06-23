@@ -1,6 +1,6 @@
-# Typescript React Base
+# JS Cake
 
-Base app setup to work with Node Typescript backend serving Reactjs frontend. 
+Typescript & react app displaying cakes.
 
 ## Requirements
 
