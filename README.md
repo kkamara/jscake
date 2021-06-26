@@ -13,7 +13,7 @@ Typescript & react app displaying cakes.
 Setting your environment variables.
 
 ```bash
-# Be sure to set DB_DATABASE_URL to your mysql connection string
+# Be sure to set DB_URI to your mysql connection string
 cp .env.example .env
 # Install our app dependencies
 npm install

@@ -2,14 +2,9 @@ import mysql from "mysql";
 import migration from "mysql-migrations";
 import path from "path";
 
-import { dbConfig } from "../index";
+import config from "../../config/index";
 
-const connection = mysql.createPool(
-    Object.assign(
-        dbConfig,
-        { connectionLimit : 10 }
-    )
-);
+const connection = mysql.createPool(config.dbURI);
 
 migration.init(
     connection, 

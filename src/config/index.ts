@@ -28,7 +28,7 @@ const helpersConfig = {
     appLocale: process.env.APP_LOCALE,
     appPort: process.env.PORT || process.env.port || 3000,
     dbPORT: process.env.DB_PORT,
-    dbURI: process.env.DB_URI,
+    dbURI: process.env.DB_URI || process.env.CLEARDB_DATABASE_URL,
     dbHost: process.env.DB_HOST,
     dbDatabase: process.env.DB_DATABASE,
     dbUser: process.env.DB_USER,

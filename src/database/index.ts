@@ -1,16 +1,8 @@
-import config from "../config/index";
 import { createConnection } from "mysql";
+import config from "../config/index";
 
-const dbConfig = {
-    user: config.dbUser,
-    host: config.dbHost,
-    database: config.dbDatabase,
-    password: config.dbPassword,
-};
-
-const getMysqlClient = () => createConnection(dbConfig);
+const getMysqlClient = () => createConnection(config.dbURI);
 
 export {
     getMysqlClient,
-    dbConfig,
 };
