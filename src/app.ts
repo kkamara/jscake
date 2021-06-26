@@ -3,7 +3,7 @@ import sanitize from 'sanitize';
 import express from "express";
 
 import helpersConfig from "./config/index";
-import cake from "./models/cake";
+import routes from "./routes/index";
 
 const app = express();
 
@@ -30,9 +30,10 @@ app.use((req, res, next) => {
     next();
 });
 
-const router = express.Router();
-router.post('/cake/create', cake.createCake)
-app.use('/api/v1', router);
+app.use(
+    '/api/v1', 
+    routes.cakeRoutes,
+);
 
 if (helpersConfig.nodeEnv === "production") {
     app.listen(helpersConfig.appPort);
