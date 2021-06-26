@@ -1,13 +1,17 @@
 
+type Fields = { [key: string]: Array<string> };
+
+type File = {
+    fieldName: string,
+    originalFilename: string,
+    path: string,
+    headers: Object,
+    size: number
+};
+
 type Form = {
-    fields: { [key: string]: Array<string> } | null, 
-    file: {
-        fieldName: string,
-        originalFilename: string,
-        path: string,
-        headers: Object,
-        size: number
-    } | null
+    fields?: Fields, 
+    file?: File,
 };
 
 export type {

@@ -22,11 +22,16 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(sanitize.middleware);
-app.use((req, res, next) => {
+app.use((
+    req: express.Request, 
+    res: express.Response, 
+    next: express.NextFunction
+) => {
     res.header("Access-Control-Allow-Origin", helpersConfig.appURL);
     res.header("Access-Control-Allow-Credentials", "true");
     res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Authorization, x-id, Content-Length, X-Requested-With");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.type("application/json");
     next();
 });
 

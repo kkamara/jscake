@@ -6,6 +6,21 @@ import config from "../config/index";
 
 class ImageHelper {
     /**
+     * 
+     * @param String type 
+     * @returns String
+     */
+    getContentType(type: string) {
+        switch (type) {
+            case "jpeg":
+            case "jpg":
+                return "image/jpeg";
+            case "png":
+                return "image/png";
+        }
+    }
+
+    /**
      * @param String url 
      * @param String imagePath 
      * @returns Boolean|Error
@@ -38,16 +53,17 @@ class ImageHelper {
          */
         const tmp = path.split('/');
         const fileName = tmp[tmp.length - 1];
+        const destinationURL = `uploads/${fileName}`;
 
         const params = {
             Bucket: config.awsBucket,
-            Key: `uploads/${fileName}`,
+            Key: destinationURL,
             Body: data,
             ContentType: contentType,
         };
         try {
             await s3.putObject(params).promise();
-            return true;
+            return destinationURL;
         } catch (err) {
             console.log(err);
             return false;
