@@ -39,7 +39,6 @@ class Cake extends API {
             res.statusCode = 401;
             return res.send(JSON.stringify({ errors }));
         }
-        console.log(formData);
         const imagePath = await imageHelper.upload(
             formData.file.path,
             formData.file.headers["content-type"],
