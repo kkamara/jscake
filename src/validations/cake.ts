@@ -1,4 +1,4 @@
-var sizeOf = require('image-size');
+import sizeOf from "image-size";
 
 import { Form } from "../types/form_types";
 
@@ -8,9 +8,9 @@ class CakeValidation {
     /**
      * Validates create cake request.
      * @param Form form
-     * @returns Array
+     * @returns Array<string>
      */
-    checkCreate(form: Form) {
+    checkCreate(form: Form): Array<string> {
         const result = [];
         if (form.file === null) {
             result.push("Missing image field.");
