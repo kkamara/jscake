@@ -33,6 +33,10 @@ const helpersConfig = {
     dbDatabase: process.env.DB_DATABASE,
     dbUser: process.env.DB_USER,
     dbPassword: process.env.DB_PASSWORD,
+    awsRegion: process.env.AWS_REGION,
+    awsAccessKey: process.env.AWS_ACCESS_KEY_ID,
+    awsSecret: process.env.AWS_SECRET_ACCESS_KEY,
+    awsBucket: process.env.AWS_BUCKET,
 };
 
 export default helpersConfig;
