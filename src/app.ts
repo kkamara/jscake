@@ -1,9 +1,9 @@
-import helpersConfig from "./config";
-
 import cookieParser from "cookie-parser";
 import sanitize from 'sanitize';
 import express from "express";
-import multiparty from "multiparty";
+
+import helpersConfig from "./config/index";
+import cake from "./models/cake";
 
 const app = express();
 
@@ -31,23 +31,7 @@ app.use((req, res, next) => {
 });
 
 const router = express.Router();
-router.post('/cake/create', (req, res) => {
-    console.log(
-        req.params,
-        req.body,
-    );
-    var form = new multiparty.Form();
- 
-    form.parse(req, function(err, fields, files) {
-        console.log(
-            req.params,
-            req.body,
-            fields, 
-            files,
-        );
-    });
-    return res.send("success");
-})
+router.post('/cake/create', cake.createCake)
 app.use('/api/v1', router);
 
 if (helpersConfig.nodeEnv === "production") {

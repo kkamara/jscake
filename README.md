@@ -5,12 +5,18 @@ Typescript & react app displaying cakes.
 ## Requirements
 
 - [npm](https://nodejs.org/en/)
+- [postgres](https://www.postgresql.org/)
 
-## Installation
 
-Use the package manager [npm](https://www.npmjs.com/get-npm) with the [Node](https://nodejs.org/en/) runtime.
+## Setup
+
+Setting your environment variables.
 
 ```bash
+# Be sure to set DB_DATABASE to 
+# your postgres connection string
+cp .env.example .env
+# Install our app dependencies
 npm install
 ```
 
