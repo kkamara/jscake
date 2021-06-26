@@ -1,30 +1,16 @@
-import moment from "moment";
-import pg, { 
-    ClientConfig,
-    Client, 
-    Pool 
-} from "pg";
+import config from "../config/index";
+import { createConnection } from "mysql";
 
-const parseDate = (val: string) =>
-    val === null ? null : moment(val).format("YYYY-MM-DD");
-
-const DATATYPE_DATE = 1082;
-
-pg.types.setTypeParser(DATATYPE_DATE, val => {
-    return val === null ? null : parseDate(val)
-});
-
-const DatabaseConfig: ClientConfig = {
-    connectionString: process.env.DB_URI,
-    ssl: true,
+const dbConfig = {
+    user: config.dbUser,
+    host: config.dbHost,
+    database: config.dbDatabase,
+    password: config.dbPassword,
 };
 
-const getClient = () => new Client(DatabaseConfig);
-
-const getPool = () => new Pool(DatabaseConfig);
+const getMysqlClient = () => createConnection(dbConfig);
 
 export {
-    DatabaseConfig,
-    getClient,
-    getPool,
+    getMysqlClient,
+    dbConfig,
 };

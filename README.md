@@ -5,7 +5,7 @@ Typescript & react app displaying cakes.
 ## Requirements
 
 - [npm](https://nodejs.org/en/)
-- [postgres](https://www.postgresql.org/)
+- [mysql](https://www.mysql.com/)
 
 
 ## Setup
@@ -13,11 +13,12 @@ Typescript & react app displaying cakes.
 Setting your environment variables.
 
 ```bash
-# Be sure to set DB_DATABASE to 
-# your postgres connection string
+# Be sure to set DB_DATABASE_URL to your mysql connection string
 cp .env.example .env
 # Install our app dependencies
 npm install
+# Run db migrations
+npm run migrate -- up
 ```
 
 ## Usage
