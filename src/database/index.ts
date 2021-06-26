@@ -3,6 +3,6 @@ import config from "../config/index";
 
 const getMysqlClient = () => createConnection(config.dbURI);
 
-export {
+export default {
     getMysqlClient,
 };

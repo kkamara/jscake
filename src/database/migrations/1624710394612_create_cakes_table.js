@@ -1,6 +1,6 @@
 module.exports = {
     "up": `CREATE TABLE cakes (
-        id int primary key,
+        id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(30) NOT NULL,
         comment VARCHAR(50) NOT NULL,
         imageUrl VARCHAR(1024) NOT NULL,

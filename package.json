@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/app.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "ts-mocha src/**/*.spec.ts",
     "start": "ts-node -T src/app.ts",
     "migrate": "./node_modules/.bin/ts-node src/database/migrations/index.ts",
     "dev": "concurrently \"npm run start\" \"cd frontend && PORT=5000 npm run start\""
@@ -25,6 +25,7 @@
     "@types/cookie-parser": "^1.4.2",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.11",
+    "@types/mocha": "^8.2.2",
     "@types/moment": "^2.13.0",
     "@types/multiparty": "0.0.32",
     "@types/mysql": "^2.15.18",
@@ -36,6 +37,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "image-size": "^1.0.0",
+    "mocha": "^9.0.1",
     "moment": "^2.29.1",
     "multiparty": "^4.2.2",
     "mysql": "^2.18.1",
@@ -44,5 +46,12 @@
     "sanitize": "^2.1.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.19",
+    "@types/faker": "^5.5.6",
+    "chai": "^4.3.4",
+    "faker": "^5.5.3",
+    "ts-mocha": "^8.0.0"
   }
 }

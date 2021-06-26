@@ -1,21 +1,105 @@
-import { Query } from "pg";
+import db from "../index";
+import cake from "../../models/cake";
+import { QueryResults, CakeResult } from "../../types/mysql_types";
 
 const createCakeQuery = ({
     name,
     comment,
     imageUrl,
     yumFactor,
-}) =>
-    new Query(
-        `INSERT INTO cakes(
-            name,
-            comment,
-            imageUrl,
-            yumFactor
-        ) VALUES ($1, $2, $3, $4)`, 
-        [ name, comment, imageUrl, yumFactor, ],
-    );
+}): Promise<QueryResults> => 
+    new Promise((resolve, reject) => {
+        const connection = db.getMysqlClient();
+        connection.query(
+            `INSERT INTO ${cake.getTableName()} SET ?`, 
+            {
+                name, 
+                comment, 
+                imageUrl, 
+                yumFactor, 
+            },
+            (error, results) => {
+                connection.end();
+                if (error) {
+                    console.log(error);
+                    return reject(false);
+                }
+                return resolve(results);
+            }
+        );
+    });
+
+const fetchCakesQuery = (): Promise<CakeResult[]> => 
+    new Promise((resolve, reject) => {
+        const connection = db.getMysqlClient();
+        connection.query(
+            `SELECT * FROM ${cake.getTableName()}`,
+            (error, results) => {
+                connection.end();
+                if (error) {
+                    console.log(error);
+                    return reject(false);
+                }
+                return resolve(results);
+            }
+        );
+    });
+
+const dropCakeQuery = (id: number): Promise<QueryResults> => 
+    new Promise((resolve, reject) => {
+        const connection = db.getMysqlClient();
+        connection.query(
+            `DELETE FROM ${cake.getTableName()} WHERE id = ?`,
+            id,
+            (error, results) => {
+                connection.end();
+                if (error) {
+                    console.log(error);
+                    return reject(false);
+                }
+                return resolve(results);
+            }
+        );
+    });
+
+const dropWhereCakeQuery = (fields: { [key:string]: any }): Promise<QueryResults> => 
+    new Promise((resolve, reject) => {
+        const connection = db.getMysqlClient();
+        connection.query(
+            `DELETE FROM ${cake.getTableName()} WHERE ?`,
+            fields,
+            (error, results) => {
+                connection.end();
+                if (error) {
+                    console.log(error);
+                    return reject(false);
+                }
+                return resolve(results);
+            }
+        );
+    });
+
+const whereCakeQuery = (fields: { [key:string]: any }): Promise<QueryResults> => 
+    new Promise((resolve, reject) => {
+        const connection = db.getMysqlClient();
+        connection.query(
+            `SELECT * FROM ${cake.getTableName()} WHERE ?`,
+            fields,
+            (error, results) => {
+                connection.end();
+                if (error) {
+                    console.log(error);
+                    return reject(false);
+                }
+                return resolve(results);
+            }
+        );
+    });
 
 export {
     createCakeQuery,
+    fetchCakesQuery,
+    dropCakeQuery,
+    dropWhereCakeQuery,
+    whereCakeQuery,
 };
