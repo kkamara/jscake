@@ -69,6 +69,24 @@ class ImageHelper {
             return false;
         }
     }
+    
+    /**
+     * @param String path
+     * @returns Boolean
+     */
+    async del(path: string) {
+        const params = {
+            Bucket: config.awsBucket,
+            Key: path,
+        };
+        try {
+            await s3.deleteObject(params).promise();
+            return true;
+        } catch (err) {
+            console.log(err);
+            return false;
+        }
+    }
 }
 
 export default new ImageHelper();
