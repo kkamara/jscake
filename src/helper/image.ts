@@ -43,7 +43,7 @@ class ImageHelper {
     /**
      * @param String path
      * @param String contentType
-     * @returns Boolean
+     * @returns String|false
      */
     async upload(path: string, contentType: string) {
         const data = fs.readFileSync(path);
