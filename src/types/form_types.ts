@@ -15,5 +15,7 @@ type Form = {
 };
 
 export type {
+    Fields,
+    File,
     Form,
-}
+};

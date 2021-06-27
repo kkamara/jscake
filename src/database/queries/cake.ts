@@ -1,13 +1,14 @@
 import db from "../index";
 import cake from "../../models/cake";
 import { QueryResults, CakeResult } from "../../types/mysql_types";
+import { Fields } from "../../types/form_types";
 
 const createCakeQuery = ({
     name,
     comment,
     imageUrl,
     yumFactor,
-}): Promise<QueryResults> => 
+}: CakeResult): Promise<QueryResults> => 
     new Promise((resolve, reject) => {
         const connection = db.getMysqlClient();
         connection.query(
@@ -45,7 +46,7 @@ const fetchCakesQuery = (): Promise<CakeResult[]> =>
         );
     });
 
-const dropCakeQuery = (id: number): Promise<QueryResults> => 
+const dropCakeQuery = (id: Number): Promise<QueryResults> => 
     new Promise((resolve, reject) => {
         const connection = db.getMysqlClient();
         connection.query(
@@ -62,7 +63,7 @@ const dropCakeQuery = (id: number): Promise<QueryResults> =>
         );
     });
 
-const dropWhereCakeQuery = (fields: { [key:string]: any }): Promise<QueryResults> => 
+const dropWhereCakeQuery = (fields: Fields): Promise<QueryResults> => 
     new Promise((resolve, reject) => {
         const connection = db.getMysqlClient();
         connection.query(
@@ -79,7 +80,7 @@ const dropWhereCakeQuery = (fields: { [key:string]: any }): Promise<QueryResults
         );
     });
 
-const whereCakeQuery = (fields: { [key:string]: any }): Promise<QueryResults> => 
+const whereCakeQuery = (fields: Fields): Promise<QueryResults> => 
     new Promise((resolve, reject) => {
         const connection = db.getMysqlClient();
         connection.query(
