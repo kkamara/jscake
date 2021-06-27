@@ -1,6 +1,7 @@
 import chai from "chai";
 
-import imageHelper from "./image";
+import imageHelper from "../helper/image";
+import { upload, del } from "./aws_s3";
 
 const assert = chai.assert;
 
@@ -11,11 +12,11 @@ const bucketlocation = "uploads/sample.jpg";
 describe("Runs image tests", () => {
     describe("Test successful upload", async () => {
         imageHelper.downloadImage(downloadFile, filelocation);
-        const res = imageHelper.upload(filelocation, "image/jpeg");
+        const res = upload(filelocation, "image/jpeg");
         assert.isNotFalse(res);
     });
     describe("Test successful delete", async () => {
-        const res = imageHelper.del(bucketlocation);
+        const res = del(bucketlocation);
         assert.isNotFalse(res);
     });
 });

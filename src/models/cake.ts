@@ -2,7 +2,7 @@ import express from "express";
 
 import API from "./api";
 import formHelper from "../helper/form";
-import imageHelper from "../helper/image";
+import { upload } from "../services/aws_s3";
 import cakeValidation from "../validations/cake";
 import { createCakeQuery } from "../database/queries/cake";
 
@@ -39,7 +39,7 @@ class Cake extends API {
             res.statusCode = 401;
             return res.send(JSON.stringify({ errors }));
         }
-        const imagePath = await imageHelper.upload(
+        const imagePath = await upload(
             formData.file.path,
             formData.file.headers["content-type"],
         );
