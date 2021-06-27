@@ -43,6 +43,12 @@ class Cake extends API {
             formData.file.path,
             formData.file.headers["content-type"],
         );
+        if (false === imagePath) {
+            res.statusCode = 500;
+            return res.send(JSON.stringify({ 
+                error: "Unexpected error occurred, please try again.", 
+            }));
+        }
         const response = await createCakeQuery({
             name: formData.fields.name[0],
             comment: formData.fields.comment[0],
