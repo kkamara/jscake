@@ -31,7 +31,7 @@ const createCakeQuery = ({
         );
     });
 
-const getCakeQuery = (id: Number): Promise<CakeResult> => 
+const getCakeQuery = (id: Number): Promise<CakeResult|false> => 
     new Promise((resolve, reject) => {
         const connection = db.getMysqlClient();
         connection.query(
@@ -43,8 +43,11 @@ const getCakeQuery = (id: Number): Promise<CakeResult> =>
                     console.log(error);
                     return reject(false);
                 }
-                result.imageUrl = `${config.awsBucketPath}${result.imageUrl}`;
-                return resolve(result);
+                if (!result.length) {
+                    return resolve(false);
+                }
+                result[0].imageUrl = `${config.awsBucketPath}${result[0].imageUrl}`;
+                return resolve(result[0]);
             }
         );
     });

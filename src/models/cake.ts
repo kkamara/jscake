@@ -8,6 +8,7 @@ import cakeValidation from "../validations/cake";
 import { 
     createCakeQuery,
     fetchCakesQuery,
+    getCakeQuery,
 } from "../database/queries/cake";
 
 class Cake extends API {
@@ -79,6 +80,25 @@ class Cake extends API {
     async listCakes(req: express.Request, res: express.Response) {
         const cakes = await fetchCakesQuery();
         return res.send(JSON.stringify({ data: cakes }));
+    }
+
+    /**
+     * Returns cakes by id.
+     * @param express.Request req 
+     * @param express.Response res 
+     * @returns express.Response
+     */
+    async getCake(req: express.Request, res: express.Response) {
+        const cake = await getCakeQuery(
+            Number.parseInt(req.params.id)
+        );
+        if (!cake) {
+            res.statusCode = 400;
+            return res.send(JSON.stringify({ 
+                error: "Resource not found.", 
+            }));
+        }
+        return res.send(JSON.stringify({ data: cake }));
     }
 }
 
