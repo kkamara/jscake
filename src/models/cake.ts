@@ -1,6 +1,7 @@
 import express from "express";
 
 import API from "./api";
+import { CakeResult } from "../types/mysql_types";
 import formHelper from "../helper/form";
 import { upload } from "../services/aws_s3";
 import cakeValidation from "../validations/cake";
@@ -49,19 +50,22 @@ class Cake extends API {
                 error: "Unexpected error occurred, please try again.", 
             }));
         }
-        const response = await createCakeQuery({
+        const cake: CakeResult = {
             name: formData.fields.name[0],
             comment: formData.fields.comment[0],
             imageUrl: imagePath,
             yumFactor: Number.parseInt(formData.fields.yumFactor[0]),
-        });
+        };
+        const response = await createCakeQuery(cake);
         if (1 !== response.affectedRows) {
             res.statusCode = 500;
             return res.send(JSON.stringify({ 
                 error: "Unexpected error occurred, please try again.", 
             }));
         }
-        return res.send("success");
+        cake.id = response.insertId;
+        return res.send(JSON.stringify({ data: cake }));
+    }
     }
 }
 
