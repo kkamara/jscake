@@ -2,6 +2,7 @@ import faker from "faker";
 import chai from "chai";
 
 import numberHelper from "../../helper/number";
+import { Fields } from "../../types/form_types";
 import { CakeResult } from "../../types/mysql_types";
 import { 
     createCakeQuery, 
@@ -13,10 +14,11 @@ import {
 
 const assert = chai.assert;
 
-const testName = { name: "test product" };
+const testName: Fields = { name: ["test product"] };
 
 const testData: CakeResult = Object.assign(
     {
+        name: "",
         comment: faker.lorem.paragraph(),
         imageUrl: "https://images.unsplash.com/photo-1481349518771-20055b2a7b24?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cmFuZG9tfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80",
         yumFactor: numberHelper.getRandomArbitrary(0, 7),
@@ -41,7 +43,7 @@ describe("Runs cake tests", () => {
         const res = await dropWhereCakeQuery(testName);
         assert.isNotFalse(res);
     });
-    describe("Drop cake", async () => {
+    describe("Drop cakes", async () => {
         const res = await fetchCakesQuery();
         assert.isNotFalse(res);
         for(const { id } of res) {
