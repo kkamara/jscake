@@ -53,7 +53,7 @@ class Cake extends API {
             name: formData.fields.name[0],
             comment: formData.fields.comment[0],
             imageUrl: imagePath,
-            yumFactor: formData.fields.yumFactor[0],
+            yumFactor: Number.parseInt(formData.fields.yumFactor[0]),
         });
         if (1 !== response.affectedRows) {
             res.statusCode = 500;

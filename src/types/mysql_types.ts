@@ -1,21 +1,21 @@
 
 type QueryResults = {
-    fieldCount: number,
-    affectedRows: number,
-    insertId: number,
-    serverStatus: number,
-    warningCount: number,
+    fieldCount: Number,
+    affectedRows: Number,
+    insertId: Number,
+    serverStatus: Number,
+    warningCount: Number,
     message: string,
     protocol41: boolean,
-    changedRows: number,
+    changedRows: Number,
 };
 
 type CakeResult = {
-    id?: number,
+    id?: Number,
     name: string,
     comment: string,
     imageUrl: string,
-    yumFactor: number,
+    yumFactor: Number,
 };
 
 export type {
