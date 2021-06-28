@@ -37,6 +37,7 @@ const helpersConfig = {
     awsAccessKey: process.env.AWS_ACCESS_KEY_ID,
     awsSecret: process.env.AWS_SECRET_ACCESS_KEY,
     awsBucket: process.env.AWS_BUCKET,
+    awsBucketPath: process.env.AWS_BUCKET_PATH,
 };
 
 export default helpersConfig;

@@ -2,6 +2,7 @@ import db from "../index";
 import cake from "../../models/cake";
 import { QueryResults, CakeResult } from "../../types/mysql_types";
 import { Fields } from "../../types/form_types";
+import config from "../../config";
 
 const createCakeQuery = ({
     name,
@@ -40,6 +41,9 @@ const fetchCakesQuery = (): Promise<CakeResult[]> =>
                 if (error) {
                     console.log(error);
                     return reject(false);
+                }
+                for (const key in results) {
+                    results[key].imageUrl = `${config.awsBucketPath}${results[key].imageUrl}`;
                 }
                 return resolve(results);
             }
