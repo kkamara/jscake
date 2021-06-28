@@ -3,13 +3,14 @@ import express from "express";
 import API from "./api";
 import { CakeResult } from "../types/mysql_types";
 import formHelper from "../helper/form";
-import { upload } from "../services/aws_s3";
+import * as s3 from "../services/aws_s3";
 import cakeValidation from "../validations/cake";
 import { 
     createCakeQuery,
     fetchCakesQuery,
     getCakeQuery,
     dropCakeQuery,
+    updateCakeQuery,
 } from "../database/queries/cake";
 
 class Cake extends API {
@@ -45,7 +46,7 @@ class Cake extends API {
             res.statusCode = 401;
             return res.send(JSON.stringify({ errors }));
         }
-        const imagePath = await upload(
+        const imagePath = await s3.upload(
             formData.file.path,
             formData.file.headers["content-type"],
         );
@@ -119,6 +120,70 @@ class Cake extends API {
             }));
         }
         return res.send(JSON.stringify({ message: "Success" }));
+    }
+
+    /**
+     * Updates cake request.
+     * @param express.Request req 
+     * @param express.Response res 
+     * @returns express.Response
+     */
+    async updateCake(req: express.Request, res: express.Response) {
+        const oldCake = await getCakeQuery(
+            Number.parseInt(req.params.id)
+        );
+        if (!oldCake) {
+            res.statusCode = 500;
+            return res.send(JSON.stringify({ 
+                error: "Unexpected error occurred, please try again.", 
+            }));
+        }
+        const formData = await formHelper.getMultiparseForm(req);
+        const errors = cakeValidation.checkUpdate(formData);
+        if (errors.length) {
+            res.statusCode = 401;
+            return res.send(JSON.stringify({ errors }));
+        }
+        let response: any;
+        let imagePath: String|Boolean;
+        let newCake: CakeResult = oldCake;
+        if (null !== formData.file) {
+            response = s3.del(oldCake.imageUrl);
+            if (false === response) {
+                res.statusCode = 500;
+                return res.send(JSON.stringify({ 
+                    error: "Unexpected error occurred, please try again.", 
+                }));
+            }
+            imagePath = await s3.upload(
+                formData.file.path,
+                formData.file.headers["content-type"],
+            );
+            if (false === imagePath) {
+                res.statusCode = 500;
+                return res.send(JSON.stringify({ 
+                    error: "Unexpected error occurred, please try again.", 
+                }));
+            }
+            newCake.imageUrl = imagePath as string;
+        }
+        if (formData.fields.name) {
+            newCake.name = formData.fields.name[0];
+        }
+        if (formData.fields.comment) {
+            newCake.comment = formData.fields.comment[0];
+        }
+        if (formData.fields.yumFactor) {
+            newCake.yumFactor = Number.parseInt(formData.fields.yumFactor[0]);
+        }
+        response = await updateCakeQuery(newCake);
+        if (1 !== response.affectedRows) {
+            res.statusCode = 500;
+            return res.send(JSON.stringify({ 
+                error: "Unexpected error occurred, please try again.", 
+            }));
+        }
+        return res.send(JSON.stringify({ data: newCake }));
     }
 }
 

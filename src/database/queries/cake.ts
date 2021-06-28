@@ -4,22 +4,12 @@ import { QueryResults, CakeResult } from "../../types/mysql_types";
 import { Fields } from "../../types/form_types";
 import config from "../../config";
 
-const createCakeQuery = ({
-    name,
-    comment,
-    imageUrl,
-    yumFactor,
-}: CakeResult): Promise<QueryResults> => 
+const createCakeQuery = (params: CakeResult): Promise<QueryResults> => 
     new Promise((resolve, reject) => {
         const connection = db.getMysqlClient();
         connection.query(
             `INSERT INTO ${cake.getTableName()} SET ?`, 
-            {
-                name, 
-                comment, 
-                imageUrl, 
-                yumFactor, 
-            },
+            params,
             (error, results) => {
                 connection.end();
                 if (error) {
@@ -31,7 +21,7 @@ const createCakeQuery = ({
         );
     });
 
-const getCakeQuery = (id: Number): Promise<CakeResult|false> => 
+const getCakeQuery = (id: Number): Promise<CakeResult|undefined> => 
     new Promise((resolve, reject) => {
         const connection = db.getMysqlClient();
         connection.query(
@@ -41,10 +31,10 @@ const getCakeQuery = (id: Number): Promise<CakeResult|false> =>
                 connection.end();
                 if (error) {
                     console.log(error);
-                    return reject(false);
+                    return reject(undefined);
                 }
                 if (!result.length) {
-                    return resolve(false);
+                    return resolve(undefined);
                 }
                 result[0].imageUrl = `${config.awsBucketPath}${result[0].imageUrl}`;
                 return resolve(result[0]);
@@ -122,6 +112,29 @@ const whereCakeQuery = (fields: Fields): Promise<QueryResults> =>
         );
     });
 
+const updateCakeQuery = (params: CakeResult): Promise<QueryResults> => 
+    new Promise((resolve, reject) => {
+        const connection = db.getMysqlClient();
+        connection.query(
+            `UPDATE ${cake.getTableName()} SET name = ?, comment = ?, imageUrl = ?, yumFactor = ? WHERE id = ?`,
+            [
+                params.name,
+                params.comment,
+                params.imageUrl,
+                params.yumFactor,
+                params.id,
+            ],
+            (error, results) => {
+                connection.end();
+                if (error) {
+                    console.log(error);
+                    return reject(false);
+                }
+                return resolve(results);
+            }
+        );
+    });
+
 export {
     createCakeQuery,
     fetchCakesQuery,
@@ -129,4 +142,5 @@ export {
     dropWhereCakeQuery,
     whereCakeQuery,
     getCakeQuery,
+    updateCakeQuery,
 };
