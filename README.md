@@ -33,6 +33,12 @@ npm start
 npm run dev
 ```
 
+## Commands
+
+```bash
+npm run command -- src/commands/delete_cakes.ts
+```
+
 ## Testing
 
 ```bash
