@@ -29,6 +29,7 @@ const upload = async (path: string, contentType: string) => {
         Key: destinationURL,
         Body: data,
         ContentType: contentType,
+        ACL:'public-read',
     };
     try {
         await s3.putObject(params).promise();
