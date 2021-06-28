@@ -9,6 +9,7 @@ import {
     createCakeQuery,
     fetchCakesQuery,
     getCakeQuery,
+    dropCakeQuery,
 } from "../database/queries/cake";
 
 class Cake extends API {
@@ -99,6 +100,25 @@ class Cake extends API {
             }));
         }
         return res.send(JSON.stringify({ data: cake }));
+    }
+
+    /**
+     * Deletes cake by id.
+     * @param express.Request req 
+     * @param express.Response res 
+     * @returns express.Response
+     */
+     async delCake(req: express.Request, res: express.Response) {
+        const response = await dropCakeQuery(
+            Number.parseInt(req.params.id)
+        );
+        if (1 !== response.affectedRows) {
+            res.statusCode = 500;
+            return res.send(JSON.stringify({ 
+                error: "Unexpected error occurred, please try again.", 
+            }));
+        }
+        return res.send(JSON.stringify({ message: "Success" }));
     }
 }
 
