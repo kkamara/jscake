@@ -5,7 +5,10 @@ import { CakeResult } from "../types/mysql_types";
 import formHelper from "../helper/form";
 import { upload } from "../services/aws_s3";
 import cakeValidation from "../validations/cake";
-import { createCakeQuery } from "../database/queries/cake";
+import { 
+    createCakeQuery,
+    fetchCakesQuery,
+} from "../database/queries/cake";
 
 class Cake extends API {
     /** @var String tableName */
@@ -66,6 +69,16 @@ class Cake extends API {
         cake.id = response.insertId;
         return res.send(JSON.stringify({ data: cake }));
     }
+
+    /**
+     * Returns cakes list.
+     * @param express.Request req 
+     * @param express.Response res 
+     * @returns express.Response
+     */
+    async listCakes(req: express.Request, res: express.Response) {
+        const cakes = await fetchCakesQuery();
+        return res.send(JSON.stringify({ data: cakes }));
     }
 }
 
