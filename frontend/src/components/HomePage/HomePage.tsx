@@ -193,7 +193,7 @@ export default function HomePage() {
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('name');
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
+  const [dense, setDense] = React.useState(true);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [loading, setLoading] = React.useState(true);
   const [rows, setRows] = React.useState<Data[]>([]);
