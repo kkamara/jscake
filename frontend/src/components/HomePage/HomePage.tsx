@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import axios from 'axios';
-import clsx from 'clsx';
 import { createStyles, lighten, makeStyles, Theme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,15 +9,13 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
+
+import Button from '@material-ui/core/Button';
+import EditIcon from '@material-ui/icons/Edit';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
@@ -147,46 +144,6 @@ const useToolbarStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-interface EnhancedTableToolbarProps {
-  numSelected: number;
-}
-
-const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  const classes = useToolbarStyles();
-  const { numSelected } = props;
-
-  return (
-    <Toolbar
-      className={clsx(classes.root, {
-        [classes.highlight]: numSelected > 0,
-      })}
-    >
-      {numSelected > 0 ? (
-        <Typography className={classes.title} color='inherit' variant='subtitle1' component='div'>
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography className={classes.title} variant='h6' id='tableTitle' component='div'>
-          Cakes
-        </Typography>
-      )}
-      {numSelected > 0 ? (
-        <Tooltip title='Delete'>
-          <IconButton aria-label='delete'>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title='Filter list'>
-          <IconButton aria-label='filter list'>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
-    </Toolbar>
-  );
-};
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -212,6 +169,15 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 );
+
+const styles = {
+    button: {
+      cursor: 'pointer',
+      border: '1px solid gray',
+      borderRadius: 20,
+      padding: 3,
+    },
+};
 
 export default function HomePage() {
   const classes = useStyles();
@@ -279,7 +245,6 @@ export default function HomePage() {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={0} />
         <TableContainer>
           <Table
             className={classes.table}
@@ -312,6 +277,14 @@ export default function HomePage() {
                       selected={false}
                     >
                       <TableCell component='th' id={labelId} scope='row' padding='none'>
+                        <EditIcon
+                          style={styles.button}
+                          onClick={() => console.log('edit')}
+                        />
+                        <DeleteIcon
+                          style={styles.button}
+                          onClick={() => console.log('delete')}
+                        />
                         {row.name}
                       </TableCell>
                       <TableCell align='right'>{row.comment}</TableCell>
@@ -342,6 +315,9 @@ export default function HomePage() {
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label='Dense padding'
       />
+      <Button variant="contained" color="primary">
+        Create
+      </Button>
     </div>
   );
 }
