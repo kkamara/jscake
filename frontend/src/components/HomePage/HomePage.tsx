@@ -298,13 +298,13 @@ export default function HomePage() {
                           style={styles.button}
                           onClick={() => console.log('edit')}
                           fontSize="large"
-                          color='secondary'
+                          color='action'
                         />
                         <DeleteIcon
                           style={styles.button}
                           onClick={() => console.log('delete')}
                           fontSize="large"
-                          color='action'
+                          color='secondary'
                         />
                       </TableCell>
                     </TableRow>
