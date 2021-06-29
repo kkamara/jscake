@@ -1,32 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter, Switch, Redirect, Route } from "react-router-dom";
 
-import { Helmet } from "react-helmet";
+import HomePage from "./components/HomePage";
 
-import './App.css';
+import './index.css';
 
-function App() {
-  return (
-    <div className="App">
-      <Helmet>
-          <title>JS Cake 🎂</title>
-      </Helmet>
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+const App = () => (
+    <div id='app'>
+        <BrowserRouter>
+            <Switch>
+                <Route path="/" exact component={HomePage} />
+                {/* <Route path="/404" exact component={Page404} /> */}
+                <Redirect to="/404" />
+            </Switch>
+        </BrowserRouter>
     </div>
-  );
-}
+);
 
 export default App;
