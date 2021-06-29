@@ -21,7 +21,7 @@ const testData: CakeResult = Object.assign(
         name: "",
         comment: faker.lorem.paragraph(),
         imageUrl: "https://images.unsplash.com/photo-1481349518771-20055b2a7b24?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cmFuZG9tfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80",
-        yumFactor: numberHelper.getRandomArbitrary(0, 7),
+        yumFactor: numberHelper.getRandomArbitrary(0, 5),
     },
     testName,
 );
