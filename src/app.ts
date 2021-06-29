@@ -27,7 +27,7 @@ app.use((
     res: express.Response, 
     next: express.NextFunction
 ) => {
-    res.header("Access-Control-Allow-Origin", helpersConfig.appURL);
+    res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Credentials", "true");
     res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Authorization, x-id, Content-Length, X-Requested-With");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");

@@ -12,6 +12,7 @@ import {
     dropCakeQuery,
     updateCakeQuery,
 } from "../database/queries/cake";
+import config from "../config";
 
 class Cake extends API {
     /** @var String tableName */
@@ -70,6 +71,7 @@ class Cake extends API {
             }));
         }
         cake.id = response.insertId;
+        cake.imageUrl = config.awsBucketPath + cake.imageUrl;
         return res.send(JSON.stringify({ data: cake }));
     }
 
