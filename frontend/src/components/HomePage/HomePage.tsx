@@ -13,7 +13,6 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -25,8 +24,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import { Helmet } from 'react-helmet';
 
-import { API } from '../constants';
-import Loader from './Loader';
+import { API } from '../../constants';
+import Loader from '../Loader';
 
 interface Data {
     id: number;
@@ -261,7 +260,7 @@ export default function HomePage() {
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {};
 
   const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
-    console.log('here');
+    window.location.href = `/${id}`;
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
