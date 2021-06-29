@@ -99,7 +99,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
+            align={'left'}
             padding={headCell.disablePadding ? 'none' : 'default'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -117,6 +117,18 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             </TableSortLabel>
           </TableCell>
         ))}
+        <TableCell
+            key={'custom'}
+            align={'left'}
+            padding={'default'}
+            sortDirection={false}
+          >
+            <TableSortLabel
+              active={false}
+              direction={undefined}
+              onClick={() => {}}
+            ></TableSortLabel>
+          </TableCell>
       </TableRow>
     </TableHead>
   );
@@ -173,9 +185,6 @@ const useStyles = makeStyles((theme: Theme) =>
 const styles = {
     button: {
       cursor: 'pointer',
-      border: '1px solid gray',
-      borderRadius: 20,
-      padding: 3,
     },
 };
 
@@ -277,19 +286,27 @@ export default function HomePage() {
                       selected={false}
                     >
                       <TableCell component='th' id={labelId} scope='row' padding='none'>
+                        {row.name}
+                      </TableCell>
+                      <TableCell>{row.comment}</TableCell>
+                      <TableCell><img src={row.imageUrl} height={100} /></TableCell>
+                      <TableCell>
+                        {row.yumFactor}
+                      </TableCell>
+                      <TableCell>
                         <EditIcon
                           style={styles.button}
                           onClick={() => console.log('edit')}
+                          fontSize="large"
+                          color='secondary'
                         />
                         <DeleteIcon
                           style={styles.button}
                           onClick={() => console.log('delete')}
+                          fontSize="large"
+                          color='action'
                         />
-                        {row.name}
                       </TableCell>
-                      <TableCell align='right'>{row.comment}</TableCell>
-                      <TableCell align='right'><img src={row.imageUrl} height={100} /></TableCell>
-                      <TableCell align='right'>{row.yumFactor}</TableCell>
                     </TableRow>
                   );
                 })}
