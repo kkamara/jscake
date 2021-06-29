@@ -259,9 +259,7 @@ export default function HomePage() {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {};
 
-  const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
-    window.location.href = `/${id}`;
-  };
+  const handleClick = (event: React.MouseEvent<unknown>, id: number) => {};
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
