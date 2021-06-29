@@ -75,7 +75,7 @@ interface HeadCell {
 }
 
 const headCells: HeadCell[] = [
-  { id: 'name', numeric: false, disablePadding: true, label: 'Name' },
+  { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
   { id: 'comment', numeric: true, disablePadding: false, label: 'Comment' },
   { id: 'imageUrl', numeric: false, disablePadding: false, label: 'Photo' },
   { id: 'yumFactor', numeric: true, disablePadding: false, label: 'Yum Factor' },
