@@ -37,6 +37,7 @@ npm run dev
 
 ```bash
 npm run command -- src/commands/delete_cakes.ts
+npm run command -- src/commands/generate_cakes.ts
 ```
 
 ## Testing
