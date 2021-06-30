@@ -31,11 +31,15 @@ type Props = {
   setShowDeleteModal: Function;
   setEnable: Function;
   enable: boolean;
-  data: Data;
+  data: Data|undefined;
 };
 
 export default function ViewModal(props: Props) {
   const classes = useStyles();
+
+  if (undefined === props.data) {
+    props.setEnable(false);
+  }
 
   const handleClose = () => {
     props.setEnable(false);
@@ -68,11 +72,11 @@ export default function ViewModal(props: Props) {
           }}
         >
           <div className={classes.paper}>
-            <partials.renderImage url={props.data.imageUrl} />
-            <h2 id="transition-modal-title">{props.data.name}</h2>
+            <partials.renderImage url={(props.data as Data).imageUrl} />
+            <h2 id="transition-modal-title">{(props.data as Data).name}</h2>
             <ul id="transition-modal-description">
-              <li>{props.data.yumFactor} rating</li>
-              <li>{props.data.comment}</li>
+              <li>{(props.data as Data).yumFactor} rating</li>
+              <li>{(props.data as Data).comment}</li>
             </ul>
             <Grid container>
               <Grid item xs={11}>

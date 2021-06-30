@@ -1,9 +1,8 @@
 import React from 'react';
 
-type Props = {
+type renderImageProps = {
   url: string;
   height?: number;
 };
-
-export const renderImage = (props: Props) => 
+export const renderImage = (props: renderImageProps) => 
   <img src={props.url} height={props.height || 220} />;

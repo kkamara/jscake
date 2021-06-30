@@ -34,12 +34,16 @@ const useStyles = makeStyles((theme: Theme) =>
 type Props = {
   setEnable: Function;
   enable: boolean;
-  data: Data;
+  data: Data|undefined;
 };
 
 export default function DeleteModal(props: Props) {
   const classes = useStyles();
   const [deleteResource, setDeleteResource] = React.useState(false);
+
+  if (undefined === props.data) {
+    props.setEnable(false);
+  }
 
   const handleBack = () => {
     props.setEnable(false);
@@ -86,11 +90,11 @@ export default function DeleteModal(props: Props) {
           }}
         >
           <div className={classes.paper}>
-            <partials.renderImage url={props.data.imageUrl} />
-            <h2 id="transition-modal-title">Delete {props.data.name}</h2>
+            <partials.renderImage url={(props.data as Data).imageUrl} />
+            <h2 id="transition-modal-title">Delete {(props.data as Data).name}</h2>
             <ul id="transition-modal-description">
-              <li>{props.data.yumFactor} rating</li>
-              <li>{props.data.comment}</li>
+              <li>{(props.data as Data).yumFactor} rating</li>
+              <li>{(props.data as Data).comment}</li>
             </ul>
             <Grid container>
                 <form>

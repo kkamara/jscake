@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import axios from 'axios';
-import { createStyles, lighten, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -14,10 +14,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
 import Button from '@material-ui/core/Button';
-
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Container from '@material-ui/core/Container';
-import { Helmet } from 'react-helmet';
 
 import { API } from '../../constants';
 import Loader from '../Loader';
@@ -170,17 +166,7 @@ export default function HomePage() {
   }, []);
 
   if (loading === true) {
-    return (
-      <Fragment>
-          <Helmet>
-              <title>JS Cake 🎂</title>
-          </Helmet>
-          <CssBaseline />
-          <Container maxWidth='xs'>
-              <Loader />
-          </Container>
-      </Fragment>
-    );
+    return <Loader />;
   }
 
   if (true === showDeleteModal) {
@@ -188,7 +174,7 @@ export default function HomePage() {
       <DeleteModal 
           setEnable={setShowDeleteModal}
           enable={showDeleteModal}
-          data={chosenRow as Data}
+          data={chosenRow}
       />
     );
   }
@@ -199,7 +185,7 @@ export default function HomePage() {
           setShowDeleteModal={setShowDeleteModal}
           setEnable={setShowCreateModal}
           enable={showCreateModal}
-          data={chosenRow as Data}
+          data={chosenRow}
       />
     );
   }
