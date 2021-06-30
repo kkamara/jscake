@@ -12,10 +12,8 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import DeleteIcon from '@material-ui/icons/Delete';
 
 import Button from '@material-ui/core/Button';
-import EditIcon from '@material-ui/icons/Edit';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
@@ -111,44 +109,10 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             </TableSortLabel>
           </TableCell>
         ))}
-        <TableCell
-            key={'custom'}
-            align={'left'}
-            padding={'default'}
-            sortDirection={false}
-          >
-            <TableSortLabel
-              active={false}
-              direction={undefined}
-              onClick={() => {}}
-            ></TableSortLabel>
-          </TableCell>
       </TableRow>
     </TableHead>
   );
 }
-
-const useToolbarStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(1),
-    },
-    highlight:
-      theme.palette.type === 'light'
-        ? {
-            color: theme.palette.secondary.main,
-            backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-          }
-        : {
-            color: theme.palette.text.primary,
-            backgroundColor: theme.palette.secondary.dark,
-          },
-    title: {
-      flex: '1 1 100%',
-    },
-  }),
-);
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -175,12 +139,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 );
-
-const styles = {
-    button: {
-      cursor: 'pointer',
-    },
-};
 
 export default function HomePage() {
   const classes = useStyles();
@@ -305,20 +263,6 @@ export default function HomePage() {
                       <TableCell><img src={row.imageUrl} height={100} /></TableCell>
                       <TableCell>
                         {row.yumFactor}
-                      </TableCell>
-                      <TableCell>
-                        <EditIcon
-                          style={styles.button}
-                          onClick={() => console.log('edit')}
-                          fontSize="large"
-                          color='action'
-                        />
-                        <DeleteIcon
-                          style={styles.button}
-                          onClick={() => console.log('delete')}
-                          fontSize="large"
-                          color='secondary'
-                        />
                       </TableCell>
                     </TableRow>
                   );

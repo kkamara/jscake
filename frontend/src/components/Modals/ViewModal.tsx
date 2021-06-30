@@ -3,8 +3,17 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
+import Grid, { GridSpacing } from '@material-ui/core/Grid';
 
 import { Data } from '../../extra/interfaces';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+
+const styles = {
+    button: {
+      cursor: 'pointer',
+    },
+};
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -62,6 +71,28 @@ export default function ViewModal(props: Props) {
               <li>{props.data.yumFactor} rating</li>
               <li>{props.data.comment}</li>
             </ul>
+            <Grid container>
+              <Grid item xs={11}>
+                <Grid container>
+                  <EditIcon
+                    style={styles.button}
+                    onClick={() => console.log('edit')}
+                    fontSize="large"
+                    color='action'
+                  />      
+                </Grid>
+              </Grid>
+              <Grid item xs={1}>
+                <Grid container>
+                  <DeleteIcon
+                    style={styles.button}
+                    onClick={() => console.log('delete')}
+                    fontSize="large"
+                    color='secondary'
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
           </div>
         </Fade>
       </Modal>
