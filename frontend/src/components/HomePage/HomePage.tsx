@@ -23,14 +23,8 @@ import { Helmet } from 'react-helmet';
 
 import { API } from '../../constants';
 import Loader from '../Loader';
-
-interface Data {
-    id: number;
-    name: string;
-    comment: string;
-    imageUrl: string;
-    yumFactor: number;
-}
+import ViewModal from '../Modals/ViewModal';
+import { Data } from '../../extra/interfaces';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -197,6 +191,8 @@ export default function HomePage() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [loading, setLoading] = React.useState(true);
   const [rows, setRows] = React.useState<Data[]>([]);
+  const [chosenRow, setChosenRow] = React.useState<Data|undefined>(undefined);
+  const [showCreateModal, setShowCreateModal] = React.useState(false);
 
   const getData = async () => {
       const res = await axios.get(`${API}cake/list`);
@@ -226,6 +222,16 @@ export default function HomePage() {
     );
   }
 
+  if (true === showCreateModal) {
+    return (
+      <ViewModal 
+          setEnable={setShowCreateModal}
+          enable={showCreateModal}
+          data={chosenRow as Data}
+      />
+    );
+  }
+
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -234,7 +240,14 @@ export default function HomePage() {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {};
 
-  const handleClick = (event: React.MouseEvent<unknown>, id: number) => {};
+  const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
+    const row = rows.find(({ id: ID }) => id === ID);
+    if (undefined === row) {
+      return;
+    }
+    setChosenRow(row);
+    setShowCreateModal(true);
+  };
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);

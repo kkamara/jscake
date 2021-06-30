@@ -1,9 +1,10 @@
-import HandleCreateModal from './HandleCreateModal';
-import HandleEditModal from './HandleEditModal';
-import HandleDeleteModal from './HandleDeleteModal';
+import CreateModal from './CreateModal';
+import EditModal from './EditModal';
+import DeleteModal from './DeleteModal';
+import ViewModal from './ViewModal';
 
 export {
-    HandleCreateModal,
-    HandleEditModal,
-    HandleDeleteModal,
+    CreateModal,
+    EditModal,
+    DeleteModal,
 };
