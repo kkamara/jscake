@@ -3,17 +3,12 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import Grid, { GridSpacing } from '@material-ui/core/Grid';
-
-import { Data } from '../../extra/interfaces';
+import Grid from '@material-ui/core/Grid';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-const styles = {
-    button: {
-      cursor: 'pointer',
-    },
-};
+import { Data } from '../../common/interfaces';
+import * as styles from '../../common/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,6 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type Props = {
+  setShowDeleteModal: Function;
   setEnable: Function;
   enable: boolean;
   data: Data;
@@ -42,6 +38,12 @@ export default function ViewModal(props: Props) {
 
   const handleClose = () => {
     props.setEnable(false);
+  };
+
+  const handleUpdate = () => {};
+
+  const handleDelete = () => {
+    props.setShowDeleteModal(true);
   };
 
   return (
@@ -76,7 +78,7 @@ export default function ViewModal(props: Props) {
                 <Grid container>
                   <EditIcon
                     style={styles.button}
-                    onClick={() => console.log('edit')}
+                    onClick={handleUpdate}
                     fontSize="large"
                     color='action'
                   />      
@@ -86,7 +88,7 @@ export default function ViewModal(props: Props) {
                 <Grid container>
                   <DeleteIcon
                     style={styles.button}
-                    onClick={() => console.log('delete')}
+                    onClick={handleDelete}
                     fontSize="large"
                     color='secondary'
                   />
