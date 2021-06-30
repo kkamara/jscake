@@ -53,14 +53,11 @@ export default function DeleteModal(props: Props) {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const val = (event.target as HTMLInputElement).value;
-    console.log(val);
     switch(val) {
         case 'true':
-            console.log(1);
             setDeleteResource(true);
             break;
         case 'false':
-            console.log(2);
             setDeleteResource(false);
             break;
     }

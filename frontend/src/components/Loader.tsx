@@ -1,5 +1,5 @@
 import React from "react";
-import PacmanLoader from "react-spinners/PacmanLoader";
+import BeatLoader from "react-spinners/BeatLoader";
 
 type Props = {
     color?: string;
@@ -12,11 +12,11 @@ const Loader = ({
     loading, 
     override 
 }: Props) => 
-    <PacmanLoader 
+    <BeatLoader 
         color={color || "#42f5ef"} 
         loading={loading} 
-        css={override} 
-        size={150} 
+        css={`left: 100px; position: relative; top: 250px; ${override}`} 
+        size={50} 
     />;
 
 export default Loader;
