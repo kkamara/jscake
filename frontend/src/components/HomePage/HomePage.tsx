@@ -24,6 +24,7 @@ import Loader from '../Loader';
 import ViewModal from '../Modals/ViewModal';
 import DeleteModal from '../Modals/DeleteModal';
 import { Data } from '../../common/interfaces';
+import * as partials from '../../common/partials';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -273,7 +274,7 @@ export default function HomePage() {
                         {row.name}
                       </TableCell>
                       <TableCell>{row.comment}</TableCell>
-                      <TableCell><img src={row.imageUrl} height={100} /></TableCell>
+                      <TableCell><partials.renderImage url={row.imageUrl} height={100} /></TableCell>
                       <TableCell>
                         {row.yumFactor}
                       </TableCell>

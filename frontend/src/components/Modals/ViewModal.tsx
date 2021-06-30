@@ -9,6 +9,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import { Data } from '../../common/interfaces';
 import * as styles from '../../common/styles';
+import * as partials from '../../common/partials';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -67,7 +68,7 @@ export default function ViewModal(props: Props) {
           }}
         >
           <div className={classes.paper}>
-            <img src={props.data.imageUrl} height={100} />
+            <partials.renderImage url={props.data.imageUrl} />
             <h2 id="transition-modal-title">{props.data.name}</h2>
             <ul id="transition-modal-description">
               <li>{props.data.yumFactor} rating</li>

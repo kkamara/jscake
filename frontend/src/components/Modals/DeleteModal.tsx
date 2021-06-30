@@ -9,13 +9,11 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
 import FormLabel from '@material-ui/core/FormLabel';
 import Button from '@material-ui/core/Button';
 
 import { Data } from '../../common/interfaces';
-import * as styles from '../../common/styles';
+import * as partials from '../../common/partials';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -88,7 +86,7 @@ export default function DeleteModal(props: Props) {
           }}
         >
           <div className={classes.paper}>
-            <img src={props.data.imageUrl} height={100} />
+            <partials.renderImage url={props.data.imageUrl} />
             <h2 id="transition-modal-title">Delete {props.data.name}</h2>
             <ul id="transition-modal-description">
               <li>{props.data.yumFactor} rating</li>
