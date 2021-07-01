@@ -147,7 +147,6 @@ class Cake extends API {
             return res.send(JSON.stringify({ errors }));
         }
         let response: any;
-        let imagePath: String|Boolean;
         let newCake: CakeResult = oldCake;
         if (null !== formData.file) {
             response = s3.del(oldCake.imageUrl);
@@ -157,7 +156,7 @@ class Cake extends API {
                     error: "Unexpected error occurred, please try again.", 
                 }));
             }
-            imagePath = await s3.upload(
+            const imagePath = await s3.upload(
                 formData.file.path,
                 formData.file.headers["content-type"],
             );
@@ -168,6 +167,8 @@ class Cake extends API {
                 }));
             }
             newCake.imageUrl = imagePath as string;
+        } else {
+            newCake.imageUrl = newCake.imageUrl.replace(config.awsBucketPath, '');
         }
         if (formData.fields.name) {
             newCake.name = formData.fields.name[0];
