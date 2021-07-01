@@ -19,6 +19,7 @@ import { API } from '../../constants';
 import Loader from '../Loader';
 import ViewModal from '../Modals/ViewModal';
 import DeleteModal from '../Modals/DeleteModal';
+import EditModal from '../Modals/EditModal';
 import { Data } from '../../common/interfaces';
 import * as partials from '../../common/partials';
 
@@ -150,6 +151,7 @@ export default function HomePage() {
   const [chosenRow, setChosenRow] = React.useState<Data|undefined>(undefined);
   const [showCreateModal, setShowCreateModal] = React.useState(false);
   const [showDeleteModal, setShowDeleteModal] = React.useState(false);
+  const [showEditModal, setShowEditModal] = React.useState(false);
 
   const getData = async () => {
       const res = await axios.get(`${API}cake/list`);
@@ -169,6 +171,18 @@ export default function HomePage() {
     return <Loader />;
   }
 
+  if (true === showEditModal) {
+    return (
+      <EditModal 
+          setData={setChosenRow}
+          setCollection={setRows}
+          setEnable={setShowEditModal}
+          enable={showEditModal}
+          data={chosenRow}
+      />
+    );
+  }
+
   if (true === showDeleteModal) {
     return (
       <DeleteModal 
@@ -183,6 +197,7 @@ export default function HomePage() {
   if (true === showCreateModal) {
     return (
       <ViewModal 
+          setShowEditModal={setShowEditModal}
           setShowDeleteModal={setShowDeleteModal}
           setEnable={setShowCreateModal}
           enable={showCreateModal}

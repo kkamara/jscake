@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type Props = {
+  setShowEditModal: Function;
   setShowDeleteModal: Function;
   setEnable: Function;
   enable: boolean;
@@ -45,7 +46,9 @@ export default function ViewModal(props: Props) {
     props.setEnable(false);
   };
 
-  const handleUpdate = () => {};
+  const handleUpdate = () => {
+    props.setShowEditModal(true);
+  };
 
   const handleDelete = () => {
     props.setShowDeleteModal(true);

@@ -69,11 +69,11 @@ export default function DeleteModal(props: Props) {
   };
 
   const handleSubmit = async () => {
-    console.log('in submit', deleteResource);
     if (true === deleteResource) {
       const res = await axios.delete(`${API}/cake/${(props.data as Data).id}`);
       if (200 === res.status) {
         props.setCollection((prevState: any) => {
+          setDeleteResource(false);
           props.setEnable(false);
           return prevState
             .filter(({ id }: Data) => id !== (props.data as Data).id);
