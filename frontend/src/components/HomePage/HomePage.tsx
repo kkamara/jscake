@@ -20,6 +20,7 @@ import Loader from '../Loader';
 import ViewModal from '../Modals/ViewModal';
 import DeleteModal from '../Modals/DeleteModal';
 import EditModal from '../Modals/EditModal';
+import CreateModal from '../Modals/CreateModal';
 import { Data } from '../../common/interfaces';
 import * as partials from '../../common/partials';
 
@@ -149,9 +150,10 @@ export default function HomePage() {
   const [loading, setLoading] = React.useState(true);
   const [rows, setRows] = React.useState<Data[]>([]);
   const [chosenRow, setChosenRow] = React.useState<Data|undefined>(undefined);
-  const [showCreateModal, setShowCreateModal] = React.useState(false);
+  const [showViewModal, setShowViewModal] = React.useState(false);
   const [showDeleteModal, setShowDeleteModal] = React.useState(false);
   const [showEditModal, setShowEditModal] = React.useState(false);
+  const [showCreateModal, setShowCreateModal] = React.useState(false);
 
   const getData = async () => {
       const res = await axios.get(`${API}cake/list`);
@@ -194,14 +196,24 @@ export default function HomePage() {
     );
   }
 
-  if (true === showCreateModal) {
+  if (true === showViewModal) {
     return (
       <ViewModal 
           setShowEditModal={setShowEditModal}
           setShowDeleteModal={setShowDeleteModal}
+          setEnable={setShowViewModal}
+          enable={showViewModal}
+          data={chosenRow}
+      />
+    );
+  }
+
+  if (true === showCreateModal) {
+    return (
+      <CreateModal 
+          setCollection={setRows}
           setEnable={setShowCreateModal}
           enable={showCreateModal}
-          data={chosenRow}
       />
     );
   }
@@ -220,7 +232,7 @@ export default function HomePage() {
       return;
     }
     setChosenRow(row);
-    setShowCreateModal(true);
+    setShowViewModal(true);
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -234,6 +246,10 @@ export default function HomePage() {
 
   const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDense(event.target.checked);
+  };
+
+  const handleCreate = () => {
+    setShowCreateModal(true);
   };
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
@@ -260,7 +276,7 @@ export default function HomePage() {
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
+                .map((row: Data, index: Number) => {
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
@@ -305,7 +321,11 @@ export default function HomePage() {
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label='Dense padding'
       />
-      <Button variant="contained" color="primary">
+      <Button 
+        variant="contained" 
+        color="primary"
+        onClick={handleCreate}
+      >
         Create
       </Button>
     </div>

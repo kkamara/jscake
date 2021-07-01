@@ -50,7 +50,7 @@ export default function EditModal(props: Props) {
   const [uploadingImage, setUploadingImage] = React.useState(false);
   const [newImage, setNewImage] = React.useState<any>(undefined);
   const [submittingImage, setSubmittingImage] = React.useState(false);
-  const [errors, setErrors] = React.useState<string[]>(['a', 'b', 'c']);
+  const [errors, setErrors] = React.useState<string[]>([]);
 
   if (undefined === props.data) {
     props.setEnable(false);
@@ -65,7 +65,6 @@ export default function EditModal(props: Props) {
   };
 
   React.useEffect(() => {
-    console.log('here');
     handleErrors();
   }, [props.data]);
 
@@ -229,6 +228,7 @@ export default function EditModal(props: Props) {
                           value={(props.data as Data).comment}
                           onChange={onChange}
                         />
+                        <br />
                         <FormGroup>
                           <FormLabel component="legend">
                             Upload new image?
