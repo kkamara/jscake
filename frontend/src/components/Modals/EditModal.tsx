@@ -18,7 +18,6 @@ import Alert from '@material-ui/lab/Alert';
 import FormGroup from '@material-ui/core/FormGroup';
 
 import { Data } from '../../common/interfaces';
-import * as partials from '../../common/partials';
 import { API } from '../../constants';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -51,6 +50,7 @@ export default function EditModal(props: Props) {
   const [newImage, setNewImage] = React.useState<any>(undefined);
   const [submittingImage, setSubmittingImage] = React.useState(false);
   const [errors, setErrors] = React.useState<string[]>([]);
+  const [editObject, setEditObject] = React.useState<Data|undefined>(props.data);
 
   if (undefined === props.data) {
     props.setEnable(false);
@@ -65,8 +65,12 @@ export default function EditModal(props: Props) {
   };
 
   React.useEffect(() => {
+    setEditObject(props.data);
+  }, []);
+
+  React.useEffect(() => {
     handleErrors();
-  }, [props.data]);
+  }, [editObject]);
 
   const handleUploadingImageChoice = (event: React.ChangeEvent<HTMLInputElement>) => {
     const val = (event.target as HTMLInputElement).value;
@@ -84,7 +88,7 @@ export default function EditModal(props: Props) {
   };
 
   const handleSubmit = async () => {
-    const data = (props.data as Data);
+    const data = (editObject as Data);
     const params = new FormData();
     if (undefined !== newImage) {
       params.append('image', newImage);
@@ -119,7 +123,7 @@ export default function EditModal(props: Props) {
 
   const handleErrors = () => {
     const errors: string[] = [];
-    const data = (props.data as Data);
+    const data = (editObject as Data);
 
     if (3 > data.name.length) {
       errors.push("The name field must be at least 3 characters.");
@@ -147,7 +151,7 @@ export default function EditModal(props: Props) {
  
   const onChange = (event: any) => {
     const { name, value } = (event.target as HTMLInputElement);
-    props.setData((prevState: any) => {
+    setEditObject((prevState: any) => {
       if ('yumFactor' === name) {
         return {
           ...prevState,
@@ -192,7 +196,7 @@ export default function EditModal(props: Props) {
           }}
         >
           <div className={classes.paper}>
-            <h2 id="transition-modal-title">Edit {(props.data as Data).name}</h2>
+            <h2 id="transition-modal-title">Edit {(editObject as Data).name}</h2>
             <Grid container>
                 <form>
                     <FormControl component="fieldset">
@@ -209,7 +213,7 @@ export default function EditModal(props: Props) {
                         <TextField 
                           id="standard-required" 
                           name="name"
-                          value={(props.data as Data).name}
+                          value={(editObject as Data).name}
                           onChange={onChange}
                           style={{
                             width: 335,
@@ -219,13 +223,13 @@ export default function EditModal(props: Props) {
                           id="standard-required" 
                           name="yumFactor"
                           type="number"
-                          value={(props.data as Data).yumFactor}
+                          value={(editObject as Data).yumFactor}
                           onChange={onChange}
                         />
                         <TextField 
                           id="standard-required" 
                           name="comment"
-                          value={(props.data as Data).comment}
+                          value={(editObject as Data).comment}
                           onChange={onChange}
                         />
                         <br />
