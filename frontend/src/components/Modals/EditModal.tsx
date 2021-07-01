@@ -47,10 +47,10 @@ type Props = {
 
 export default function EditModal(props: Props) {
   const classes = useStyles();
-  const [submittingChange, setSubmittingChange] = React.useState(false);
   const [uploadingImage, setUploadingImage] = React.useState(false);
   const [newImage, setNewImage] = React.useState<any>(undefined);
   const [submittingImage, setSubmittingImage] = React.useState(false);
+  const [errors, setErrors] = React.useState<string[]>(['a', 'b', 'c']);
 
   if (undefined === props.data) {
     props.setEnable(false);
@@ -63,6 +63,11 @@ export default function EditModal(props: Props) {
   const handleClose = () => {
     props.setEnable(false);
   };
+
+  React.useEffect(() => {
+    console.log('here');
+    handleErrors();
+  }, [props.data]);
 
   const handleUploadingImageChoice = (event: React.ChangeEvent<HTMLInputElement>) => {
     const val = (event.target as HTMLInputElement).value;
@@ -80,22 +85,65 @@ export default function EditModal(props: Props) {
   };
 
   const handleSubmit = async () => {
-    if (true === submittingChange) {
-      return;
-      const params = {};
-      const res = await axios.patch(`${API}/cake/${(props.data as Data).id}`, params);
-      if (200 === res.status) {
-        props.setCollection((prevState: any) => {
-          setSubmittingChange(false);
-          props.setEnable(false);
-          // implement
-        });
-      } else {
-        throw new Error("Something went wrong");
-      }
-    } else {
-      props.setEnable(false);
+    const data = (props.data as Data);
+    const params = new FormData();
+    if (undefined !== newImage) {
+      params.append('image', newImage);
     }
+    params.append('name', data.name);
+    params.append('yumFactor', data.yumFactor.toString());
+    params.append('comment', data.comment);
+
+    try {
+      const res = await axios.patch(`${API}cake/${data.id}`, params);
+      const { data: newData } = res.data;
+      setNewImage(false);
+      props.setEnable(false);
+
+      props.setData(newData);
+
+      props.setCollection((prevState: any) => {
+        const newState: Data[] = [ ...prevState ];
+        for (const key in newState) {
+          const { id } = newState[key];
+          if (id === data.id) {
+            newState[key] = newData;
+          }
+        }
+
+        return newState;
+      });
+    } catch (err) {
+        setErrors(err.response.data.errors);
+    }
+  };
+
+  const handleErrors = () => {
+    const errors: string[] = [];
+    const data = (props.data as Data);
+
+    if (3 > data.name.length) {
+      errors.push("The name field must be at least 3 characters.");
+    } else if (30 < data.name.length) {
+      errors.push("The name field must not exceed 30 characters.");
+    }
+
+    if (3 > data.comment.length) {
+      errors.push("The comment field must be at least 3 characters.");
+    } else if (50 < data.comment.length) {
+      errors.push("The comment field must not exceed 30 characters.");
+    }
+
+    const yumFactorConstraintErr = "The yumFactor field must be between 1 - 5 inclusive.";
+    if (false === /^\d+$/.test(data.yumFactor.toString())) {
+        errors.push("The yumFactor field must be an integer type.");
+    } else if (1 > data.yumFactor) {
+        errors.push(yumFactorConstraintErr);
+    } else if (5 < data.yumFactor) {
+        errors.push(yumFactorConstraintErr);
+    }
+
+    setErrors(prevState => [ ...errors ]);
   };
  
   const onChange = (event: any) => {
@@ -114,8 +162,14 @@ export default function EditModal(props: Props) {
     });
   };
  
-  const handleSave = (files: File[]) => {
+  const handleSaveImage = (files: File[]) => {
     setNewImage(files[0]);
+    setSubmittingImage(false);
+  };
+ 
+  const cancelSaveImage = () => {
+    setSubmittingImage(false);
+    setNewImage(false);
   };
 
   return (
@@ -139,21 +193,28 @@ export default function EditModal(props: Props) {
           }}
         >
           <div className={classes.paper}>
-            <partials.renderImage url={(props.data as Data).imageUrl} />
             <h2 id="transition-modal-title">Edit {(props.data as Data).name}</h2>
-            <ul id="transition-modal-description">
-              <li>{(props.data as Data).yumFactor} rating</li>
-              <li>{(props.data as Data).comment}</li>
-            </ul>
             <Grid container>
                 <form>
                     <FormControl component="fieldset">
-                        <Alert severity="error">This is an error alert — check it out!</Alert>
+                        {
+                          errors.length 
+                            ? errors.map((error: string, key: number) => (
+                                <Alert key={key} severity="error">
+                                  {error}
+                                </Alert> 
+                              ))
+                            : null
+                        }
+                        
                         <TextField 
                           id="standard-required" 
                           name="name"
                           value={(props.data as Data).name}
                           onChange={onChange}
+                          style={{
+                            width: 335,
+                          }}
                         />
                         <TextField 
                           id="standard-required" 
@@ -195,18 +256,18 @@ export default function EditModal(props: Props) {
                             <>
                               <DropzoneDialog
                                   open={submittingImage}
-                                  onSave={handleSave}
+                                  onSave={handleSaveImage}
                                   acceptedFiles={['image/jpeg', 'image/png']}
                                   showPreviews={true}
                                   maxFileSize={5000000}
-                                  onClose={() => setSubmittingImage(false)}
+                                  onClose={cancelSaveImage}
                               />
                             </>
                           ) : null
                         }
                         <br />
                         <Grid container>
-                          <Grid item xs={11}>
+                          <Grid item xs={10}>
                             <Grid container> 
                               <Button 
                                 variant="contained" 
@@ -217,12 +278,13 @@ export default function EditModal(props: Props) {
                               </Button>
                             </Grid>
                           </Grid>
-                          <Grid item xs={1}>
+                          <Grid item xs={2}>
                             <Grid container>
                               <Button 
                                 variant="contained" 
                                 color="primary"
                                 onClick={handleSubmit}
+                                disabled={0 < errors.length}
                               >
                                 Submit
                               </Button>

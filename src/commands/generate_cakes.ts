@@ -48,7 +48,7 @@ const Run: Function = async () => {
             name: faker.commerce.productName(),
             comment: faker.lorem.paragraph(),
             imageUrl: uploadedImages[i],
-            yumFactor: numberHelper.getRandomArbitrary(0, 5),
+            yumFactor: numberHelper.getRandomArbitrary(1, 5),
         });
     }
     for (const d of data) {

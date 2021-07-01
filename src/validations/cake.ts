@@ -99,15 +99,15 @@ class CakeValidation {
                 result.push("Image dimensions must be between 50x50 and 1000x1000.");
             }
         }
-        const yumFactorConstraintErr = "The yumFactor field must be between 0 - 6 inclusive.";
+        const yumFactorConstraintErr = "The yumFactor field must be between 1 - 5 inclusive.";
         if (
             false === (!form.fields.yumFactor || !form.fields.yumFactor[0])
         ) {
             if (false === /^\d+$/.test(form.fields.yumFactor[0])) {
                 result.push("The yumFactor field must be an integer type.");
-            } else if (0 > Number.parseInt(form.fields.yumFactor[0])) {
+            } else if (1 > Number.parseInt(form.fields.yumFactor[0])) {
                 result.push(yumFactorConstraintErr);
-            } else if (6 < Number.parseInt(form.fields.yumFactor[0])) {
+            } else if (5 < Number.parseInt(form.fields.yumFactor[0])) {
                 result.push(yumFactorConstraintErr);
             }
         }

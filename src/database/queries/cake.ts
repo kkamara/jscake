@@ -112,6 +112,7 @@ const whereCakeQuery = (fields: Fields): Promise<QueryResults> =>
         );
     });
 
+// todo - return cake updated
 const updateCakeQuery = (params: CakeResult): Promise<QueryResults> => 
     new Promise((resolve, reject) => {
         const connection = db.getMysqlClient();

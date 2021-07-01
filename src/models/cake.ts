@@ -135,9 +135,9 @@ class Cake extends API {
             Number.parseInt(req.params.id)
         );
         if (!oldCake) {
-            res.statusCode = 500;
+            res.statusCode = 400;
             return res.send(JSON.stringify({ 
-                error: "Unexpected error occurred, please try again.", 
+                error: "Resource not found.", 
             }));
         }
         const formData = await formHelper.getMultiparseForm(req);
@@ -184,6 +184,9 @@ class Cake extends API {
             return res.send(JSON.stringify({ 
                 error: "Unexpected error occurred, please try again.", 
             }));
+        }
+        if (false === /https/.test(newCake.imageUrl)) {
+            newCake.imageUrl = `${config.awsBucketPath}${newCake.imageUrl}`;
         }
         return res.send(JSON.stringify({ data: newCake }));
     }
