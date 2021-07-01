@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -14,6 +15,7 @@ import Button from '@material-ui/core/Button';
 
 import { Data } from '../../common/interfaces';
 import * as partials from '../../common/partials';
+import { API } from '../../constants';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,6 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type Props = {
+  setCollection: Function;
   setEnable: Function;
   enable: boolean;
   data: Data|undefined;
@@ -65,8 +68,22 @@ export default function DeleteModal(props: Props) {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log('in submit', deleteResource);
+    if (true === deleteResource) {
+      const res = await axios.delete(`${API}/cake/${(props.data as Data).id}`);
+      if (200 === res.status) {
+        props.setCollection((prevState: any) => {
+          props.setEnable(false);
+          return prevState
+            .filter(({ id }: Data) => id !== (props.data as Data).id);
+        });
+      } else {
+        throw new Error("Something went wrong");
+      }
+    } else {
+      props.setEnable(false);
+    }
   };
 
   return (

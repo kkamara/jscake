@@ -172,6 +172,7 @@ export default function HomePage() {
   if (true === showDeleteModal) {
     return (
       <DeleteModal 
+          setCollection={setRows}
           setEnable={setShowDeleteModal}
           enable={showDeleteModal}
           data={chosenRow}
