@@ -1,4 +1,5 @@
 import express from "express";
+import xss from "xss";
 
 import API from "./api";
 import { CakeResult } from "../types/mysql_types";
@@ -58,8 +59,8 @@ class Cake extends API {
             }));
         }
         const cake: CakeResult = {
-            name: formData.fields.name[0],
-            comment: formData.fields.comment[0],
+            name: xss(formData.fields.name[0]),
+            comment: xss(formData.fields.comment[0]),
             imageUrl: imagePath,
             yumFactor: Number.parseInt(formData.fields.yumFactor[0]),
         };
@@ -171,10 +172,10 @@ class Cake extends API {
             newCake.imageUrl = newCake.imageUrl.replace(config.awsBucketPath, '');
         }
         if (formData.fields.name) {
-            newCake.name = formData.fields.name[0];
+            newCake.name = xss(formData.fields.name[0]);
         }
         if (formData.fields.comment) {
-            newCake.comment = formData.fields.comment[0];
+            newCake.comment = xss(formData.fields.comment[0]);
         }
         if (formData.fields.yumFactor) {
             newCake.yumFactor = Number.parseInt(formData.fields.yumFactor[0]);
