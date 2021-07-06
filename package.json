@@ -5,10 +5,10 @@
   "main": "src/app.ts",
   "scripts": {
     "test": "ts-mocha src/**/*.spec.ts",
-    "start": "./node_modules/.bin/ts-node -T src/app.ts",
-    "migrate": "./node_modules/.bin/ts-node src/database/migrations/index.ts",
+    "start": "ts-node -T src/app.ts",
+    "migrate": "ts-node src/database/migrations/index.ts",
     "dev": "concurrently \"nodemon start\" \"cd frontend && PORT=5000 npm run start\"",
-    "command": "./node_modules/.bin/ts-node"
+    "command": "ts-node"
   },
   "repository": {
     "type": "git",
