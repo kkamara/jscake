@@ -31,7 +31,6 @@ app.use((
     res.header("Access-Control-Allow-Credentials", "true");
     res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Authorization, x-id, Content-Length, X-Requested-With");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.type("application/json");
     next();
 });
 
@@ -39,6 +38,10 @@ app.use(
     '/api/v1', 
     routes.cakeRoutes,
 );
+
+app.all('*', (req: express.Request, res: express.Response) => {
+    res.status(200).sendFile(`/`, {root: buildPath});
+});
 
 if (helpersConfig.nodeEnv === "production") {
     app.listen(helpersConfig.appPort);

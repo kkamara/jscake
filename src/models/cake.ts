@@ -42,6 +42,7 @@ class Cake extends API {
      * @returns express.Response
      */
     async createCake(req: express.Request, res: express.Response) {
+        res.type("application/json");
         const formData = await formHelper.getMultiparseForm(req);
         const errors = cakeValidation.checkCreate(formData);
         if (errors.length) {
@@ -83,6 +84,7 @@ class Cake extends API {
      * @returns express.Response
      */
     async listCakes(req: express.Request, res: express.Response) {
+        res.type("application/json");
         const cakes = await fetchCakesQuery();
         return res.send(JSON.stringify({ data: cakes }));
     }
@@ -94,6 +96,7 @@ class Cake extends API {
      * @returns express.Response
      */
     async getCake(req: express.Request, res: express.Response) {
+        res.type("application/json");
         const cake = await getCakeQuery(
             Number.parseInt(req.params.id)
         );
@@ -113,6 +116,7 @@ class Cake extends API {
      * @returns express.Response
      */
      async delCake(req: express.Request, res: express.Response) {
+        res.type("application/json");
         const response = await dropCakeQuery(
             Number.parseInt(req.params.id)
         );
@@ -132,6 +136,7 @@ class Cake extends API {
      * @returns express.Response
      */
     async updateCake(req: express.Request, res: express.Response) {
+        res.type("application/json");
         const oldCake = await getCakeQuery(
             Number.parseInt(req.params.id)
         );
