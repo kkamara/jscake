@@ -16,7 +16,7 @@ if (process.env.NODE_ENV !== "production") {
     }
 }
 
-const helpersConfig = {
+const config = {
     asset: path => {
         if (path[0] === "/") return `${path}`;
         return `/${path}`;
@@ -40,4 +40,4 @@ const helpersConfig = {
     awsBucketPath: process.env.AWS_BUCKET_PATH,
 };
 
-export default helpersConfig;
+export default config;

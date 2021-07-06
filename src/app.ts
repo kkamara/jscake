@@ -2,7 +2,7 @@ import cookieParser from "cookie-parser";
 import sanitize from 'sanitize';
 import express from "express";
 
-import helpersConfig from "./config/index";
+import config from "./config/index";
 import routes from "./routes/index";
 
 const app = express();
@@ -43,11 +43,11 @@ app.all('*', (req: express.Request, res: express.Response) => {
     res.status(200).sendFile(`/`, {root: buildPath});
 });
 
-if (helpersConfig.nodeEnv === "production") {
-    app.listen(helpersConfig.appPort);
+if (config.nodeEnv === "production") {
+    app.listen(config.appPort);
 } else {
-    app.listen(helpersConfig.appPort, () => {
-        const url = `http://127.0.0.1:${helpersConfig.appPort}`;
+    app.listen(config.appPort, () => {
+        const url = `http://127.0.0.1:${config.appPort}`;
         console.log(`Listening on ${url}`);
     });
 }
