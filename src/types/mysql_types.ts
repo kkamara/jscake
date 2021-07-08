@@ -1,24 +1,20 @@
-
 type QueryResults = {
-    fieldCount: Number,
-    affectedRows: Number,
-    insertId: Number,
-    serverStatus: Number,
-    warningCount: Number,
-    message: string,
-    protocol41: boolean,
-    changedRows: Number,
+  fieldCount: number
+  affectedRows: number
+  insertId: number
+  serverStatus: number
+  warningCount: number
+  message: string
+  protocol41: boolean
+  changedRows: number
 }
 
 type CakeResult = {
-    id?: Number,
-    name: string,
-    comment: string,
-    imageUrl: string,
-    yumFactor: Number,
+  id?: number
+  name: string
+  comment: string
+  imageUrl: string
+  yumFactor: number
 }
 
-export type {
-    QueryResults,
-    CakeResult,
-}
+export type { QueryResults, CakeResult }

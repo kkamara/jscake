@@ -1,5 +1,5 @@
-import cakeRoutes from "./cake"
+import cakeRoutes from './cake'
 
 export default {
-    cakeRoutes,
+  cakeRoutes,
 }

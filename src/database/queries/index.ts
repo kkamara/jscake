@@ -1,5 +1,3 @@
-import { createCakeQuery } from "./cake"
+import { createCakeQuery } from './cake'
 
-export {
-    createCakeQuery,
-}
+export { createCakeQuery }

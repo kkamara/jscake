@@ -8,7 +8,11 @@
     "start": "ts-node -T src/app.ts",
     "migrate": "ts-node src/database/migrations/index.ts",
     "dev": "concurrently \"nodemon start\" \"cd frontend && PORT=5000 npm run start\"",
-    "command": "ts-node"
+    "command": "ts-node",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint --fix --ext .ts .",
+    "pre-commit": "npm run lint",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -21,6 +25,8 @@
   },
   "homepage": "https://github.com/kkamara/jscake#readme",
   "dependencies": {
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
     "@types/axios": "^0.14.0",
     "@types/cookie-parser": "^1.4.2",
     "@types/dotenv": "^8.2.0",
@@ -50,9 +56,19 @@
   },
   "devDependencies": {
     "@types/chai": "^4.2.19",
+    "@types/eslint": "^7.2.14",
+    "@types/eslint-plugin-prettier": "^3.1.0",
     "@types/faker": "^5.5.6",
+    "@types/prettier": "^2.3.2",
+    "@typescript-eslint/eslint-plugin": "^4.28.2",
+    "@typescript-eslint/parser": "^4.28.2",
     "chai": "^4.3.4",
+    "eslint": "^7.30.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
     "faker": "^5.5.3",
+    "husky": "^7.0.1",
+    "prettier": "^2.3.2",
     "ts-mocha": "^8.0.0"
   }
 }
