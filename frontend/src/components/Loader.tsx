@@ -5,19 +5,21 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 
 type Props = {
+    title?: string;
     color?: string;
     loading?: boolean;
     override?: string;
 }
 
 const Loader = ({ 
+    title,
     color, 
     loading, 
     override 
 }: Props) =>
     <React.Fragment>
         <Helmet>
-            <title>JS Cake 🎂</title>
+            <title>JS Cake 🎂 {title || ''}</title>
         </Helmet>
         <CssBaseline />
         <Container maxWidth='xs'>
