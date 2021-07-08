@@ -226,8 +226,6 @@ export default function HomePage() {
     setOrderBy(property)
   }
 
-  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {}
-
   const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
     const row = rows.find(({ id: ID }) => id === ID)
     if (undefined === row) {
