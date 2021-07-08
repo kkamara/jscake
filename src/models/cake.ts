@@ -85,9 +85,7 @@ class Cake extends API {
      */
     async listCakes(req: express.Request, res: express.Response) {
         res.type("application/json")
-        console.log(1)
         const cakes = await fetchCakesQuery()
-        console.log(2)
         return res.send(JSON.stringify({ data: cakes }))
     }
 
