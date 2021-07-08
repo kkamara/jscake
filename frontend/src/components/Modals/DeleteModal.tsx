@@ -1,21 +1,21 @@
-import React from 'react';
-import axios from 'axios';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
-import Grid from '@material-ui/core/Grid';
+import React from 'react'
+import axios from 'axios'
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles'
+import Modal from '@material-ui/core/Modal'
+import Backdrop from '@material-ui/core/Backdrop'
+import Fade from '@material-ui/core/Fade'
+import Grid from '@material-ui/core/Grid'
 
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import Button from '@material-ui/core/Button';
+import Radio from '@material-ui/core/Radio'
+import RadioGroup from '@material-ui/core/RadioGroup'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import FormControl from '@material-ui/core/FormControl'
+import FormLabel from '@material-ui/core/FormLabel'
+import Button from '@material-ui/core/Button'
 
-import { Data } from '../../common/interfaces';
-import * as partials from '../../common/partials';
-import { API } from '../../constants';
+import { Data } from '../../common/interfaces'
+import * as partials from '../../common/partials'
+import { API } from '../../constants'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,60 +31,60 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(2, 4, 3),
     },
   }),
-);
+)
 
 type Props = {
-  setCollection: Function;
-  setEnable: Function;
-  enable: boolean;
-  data: Data|undefined;
-};
+  setCollection: Function
+  setEnable: Function
+  enable: boolean
+  data: Data|undefined
+}
 
 export default function DeleteModal(props: Props) {
-  const classes = useStyles();
-  const [deleteResource, setDeleteResource] = React.useState(false);
+  const classes = useStyles()
+  const [deleteResource, setDeleteResource] = React.useState(false)
 
   if (undefined === props.data) {
-    props.setEnable(false);
+    props.setEnable(false)
   }
 
   const handleBack = () => {
-    props.setEnable(false);
-  };
+    props.setEnable(false)
+  }
 
   const handleClose = () => {
-    props.setEnable(false);
-  };
+    props.setEnable(false)
+  }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const val = (event.target as HTMLInputElement).value;
+    const val = (event.target as HTMLInputElement).value
     switch(val) {
         case 'true':
-            setDeleteResource(true);
-            break;
+            setDeleteResource(true)
+            break
         case 'false':
-            setDeleteResource(false);
-            break;
+            setDeleteResource(false)
+            break
     }
-  };
+  }
 
   const handleSubmit = async () => {
     if (true === deleteResource) {
-      const res = await axios.delete(`${API}/cake/${(props.data as Data).id}`);
+      const res = await axios.delete(`${API}/cake/${(props.data as Data).id}`)
       if (200 === res.status) {
         props.setCollection((prevState: any) => {
-          setDeleteResource(false);
-          props.setEnable(false);
+          setDeleteResource(false)
+          props.setEnable(false)
           return prevState
-            .filter(({ id }: Data) => id !== (props.data as Data).id);
-        });
+            .filter(({ id }: Data) => id !== (props.data as Data).id)
+        })
       } else {
-        throw new Error("Something went wrong");
+        throw new Error("Something went wrong")
       }
     } else {
-      props.setEnable(false);
+      props.setEnable(false)
     }
-  };
+  }
 
   return (
     <div>
@@ -167,5 +167,5 @@ export default function DeleteModal(props: Props) {
         </Fade>
       </Modal>
     </div>
-  );
-};
+  )
+}

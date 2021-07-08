@@ -1,9 +1,9 @@
-import React from 'react';
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import React from 'react'
+import { BrowserRouter, Switch, Route } from "react-router-dom"
 
-import HomePage from "./components/HomePage";
+import HomePage from "./components/HomePage"
 
-import './index.css';
+import './index.css'
 
 const App = () => (
     <div id='app'>
@@ -13,6 +13,6 @@ const App = () => (
             </Switch>
         </BrowserRouter>
     </div>
-);
+)
 
-export default App;
+export default App

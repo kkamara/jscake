@@ -1,15 +1,15 @@
-import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
-import Grid from '@material-ui/core/Grid';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
+import React from 'react'
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles'
+import Modal from '@material-ui/core/Modal'
+import Backdrop from '@material-ui/core/Backdrop'
+import Fade from '@material-ui/core/Fade'
+import Grid from '@material-ui/core/Grid'
+import EditIcon from '@material-ui/icons/Edit'
+import DeleteIcon from '@material-ui/icons/Delete'
 
-import { Data } from '../../common/interfaces';
-import * as styles from '../../common/styles';
-import * as partials from '../../common/partials';
+import { Data } from '../../common/interfaces'
+import * as styles from '../../common/styles'
+import * as partials from '../../common/partials'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,34 +25,34 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(2, 4, 3),
     },
   }),
-);
+)
 
 type Props = {
-  setShowEditModal: Function;
-  setShowDeleteModal: Function;
-  setEnable: Function;
-  enable: boolean;
-  data: Data|undefined;
-};
+  setShowEditModal: Function
+  setShowDeleteModal: Function
+  setEnable: Function
+  enable: boolean
+  data: Data|undefined
+}
 
 export default function ViewModal(props: Props) {
-  const classes = useStyles();
+  const classes = useStyles()
 
   if (undefined === props.data) {
-    props.setEnable(false);
+    props.setEnable(false)
   }
 
   const handleClose = () => {
-    props.setEnable(false);
-  };
+    props.setEnable(false)
+  }
 
   const handleUpdate = () => {
-    props.setShowEditModal(true);
-  };
+    props.setShowEditModal(true)
+  }
 
   const handleDelete = () => {
-    props.setShowDeleteModal(true);
-  };
+    props.setShowDeleteModal(true)
+  }
 
   return (
     <div>
@@ -107,5 +107,5 @@ export default function ViewModal(props: Props) {
         </Fade>
       </Modal>
     </div>
-  );
+  )
 }

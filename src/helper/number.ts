@@ -7,8 +7,8 @@ class NumberHelper {
      * @returns Number
      */
     getRandomArbitrary(min: number, max: number) {
-        return Math.random() * (max - min) + min;
+        return Math.random() * (max - min) + min
     }
 }
 
-export default new NumberHelper();
+export default new NumberHelper()

@@ -1,19 +1,19 @@
-import React from 'react';
-import axios from 'axios';
-import { DropzoneDialog } from 'material-ui-dropzone';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
-import Grid from '@material-ui/core/Grid';
+import React from 'react'
+import axios from 'axios'
+import { DropzoneDialog } from 'material-ui-dropzone'
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles'
+import Modal from '@material-ui/core/Modal'
+import Backdrop from '@material-ui/core/Backdrop'
+import Fade from '@material-ui/core/Fade'
+import Grid from '@material-ui/core/Grid'
 
-import FormControl from '@material-ui/core/FormControl';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Alert from '@material-ui/lab/Alert';
+import FormControl from '@material-ui/core/FormControl'
+import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
+import Alert from '@material-ui/lab/Alert'
 
-import { Data } from '../../common/interfaces';
-import { API } from '../../constants';
+import { Data } from '../../common/interfaces'
+import { API } from '../../constants'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,138 +29,138 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(2, 4, 3),
     },
   }),
-);
+)
 
 type Props = {
-  setCollection: Function;
-  setEnable: Function;
-  enable: boolean;
-};
+  setCollection: Function
+  setEnable: Function
+  enable: boolean
+}
 
 const initialData = {
   name: '',
   comment: '',
   yumFactor: 1,
   imageUrl: '',
-};
+}
 
 export default function CreateModal(props: Props) {
-  const classes = useStyles();
-  const [newImage, setNewImage] = React.useState<any>(undefined);
-  const [submittingImage, setSubmittingImage] = React.useState(false);
-  const [errors, setErrors] = React.useState<string[]>([]);
+  const classes = useStyles()
+  const [newImage, setNewImage] = React.useState<any>(undefined)
+  const [submittingImage, setSubmittingImage] = React.useState(false)
+  const [errors, setErrors] = React.useState<string[]>([])
   const [data, setData] = React.useState<{
-    id?: number;
-    name: string;
-    comment: string;
-    imageUrl: string;
-    yumFactor: number;
-  }>(initialData);
+    id?: number
+    name: string
+    comment: string
+    imageUrl: string
+    yumFactor: number
+  }>(initialData)
 
   const handleBack = () => {
-    props.setEnable(false);
-  };
+    props.setEnable(false)
+  }
 
   const handleClose = () => {
-    props.setEnable(false);
-  };
+    props.setEnable(false)
+  }
 
   React.useEffect(() => {
-    handleErrors();
-  }, [data]);
+    handleErrors()
+  }, [data])
 
   const handleSubmit = async () => {
-    const newData = (data as Data);
-    const params = new FormData();
-    params.append('image', newImage);
-    params.append('name', newData.name);
-    params.append('yumFactor', newData.yumFactor.toString());
-    params.append('comment', newData.comment);
+    const newData = (data as Data)
+    const params = new FormData()
+    params.append('image', newImage)
+    params.append('name', newData.name)
+    params.append('yumFactor', newData.yumFactor.toString())
+    params.append('comment', newData.comment)
 
     try {
-      const res = await axios.post(`${API}cake/create`, params);
-      const { data: resData } = res.data;
-      setNewImage(false);
-      props.setEnable(false);
+      const res = await axios.post(`${API}cake/create`, params)
+      const { data: resData } = res.data
+      setNewImage(false)
+      props.setEnable(false)
 
       props.setCollection((prevState: any) => 
-        [ resData, ...prevState ]);
+        [ resData, ...prevState ])
     } catch (err) {
-        setErrors(err.response.data.errors);
+        setErrors(err.response.data.errors)
     }
-  };
+  }
 
   const handleErrors = (image?: File) => {
-    const errors: string[] = [];
-    const input = (data as Data);
+    const errors: string[] = []
+    const input = (data as Data)
 
     if (
       JSON.stringify(data) === JSON.stringify(initialData)
       && undefined === newImage
     ) {
-      return setErrors([]);
+      return setErrors([])
     }
     
     if (undefined === image && undefined === newImage) {
-      errors.push("Missing image field");
+      errors.push("Missing image field")
     }
 
     if (!input.name) {
-      errors.push("Missing name field.");
+      errors.push("Missing name field.")
     } else if (3 > input.name.length) {
-      errors.push("The name field must be at least 3 characters.");
+      errors.push("The name field must be at least 3 characters.")
     } else if (30 < input.name.length) {
-      errors.push("The name field must not exceed 30 characters.");
+      errors.push("The name field must not exceed 30 characters.")
     }
 
     if (!input.comment) {
-      errors.push("Missing comment field.");
+      errors.push("Missing comment field.")
     } else if (3 > input.comment.length) {
-      errors.push("The comment field must be at least 3 characters.");
+      errors.push("The comment field must be at least 3 characters.")
     } else if (50 < input.comment.length) {
-      errors.push("The comment field must not exceed 30 characters.");
+      errors.push("The comment field must not exceed 30 characters.")
     }
 
-    const yumFactorConstraintErr = "The yumFactor field must be between 1 - 5 inclusive.";
+    const yumFactorConstraintErr = "The yumFactor field must be between 1 - 5 inclusive."
     if (!input.yumFactor) {
-      errors.push("Missing yumFactor field.");
+      errors.push("Missing yumFactor field.")
     } else if (false === /^\d+$/.test(input.yumFactor.toString())) {
-        errors.push("The yumFactor field must be an integer type.");
+        errors.push("The yumFactor field must be an integer type.")
     } else if (1 > input.yumFactor) {
-        errors.push(yumFactorConstraintErr);
+        errors.push(yumFactorConstraintErr)
     } else if (5 < input.yumFactor) {
-        errors.push(yumFactorConstraintErr);
+        errors.push(yumFactorConstraintErr)
     }
 
-    setErrors(prevState => [ ...errors ]);
-  };
+    setErrors(prevState => [ ...errors ])
+  }
  
   const onChange = (event: any) => {
-    const { name, value } = (event.target as HTMLInputElement);
+    const { name, value } = (event.target as HTMLInputElement)
     setData((prevState: any) => {
       if ('yumFactor' === name) {
         return {
           ...prevState,
           [name]: Number.parseInt(value),
-        };
+        }
       }
       return {
         ...prevState,
         [name]: value,
-      };
-    });
-  };
+      }
+    })
+  }
 
   const handleSaveImage = async (files: File[]) => {
-    setNewImage(files[0]);
-    setSubmittingImage(false);
-    handleErrors(files[0]);
-  };
+    setNewImage(files[0])
+    setSubmittingImage(false)
+    handleErrors(files[0])
+  }
 
   const cancelSaveImage = () => {
-    setSubmittingImage(false);
-    setNewImage(false);
-  };
+    setSubmittingImage(false)
+    setNewImage(false)
+  }
 
   return (
     <div>
@@ -277,5 +277,5 @@ export default function CreateModal(props: Props) {
         </Fade>
       </Modal>
     </div>
-  );
-};
+  )
+}

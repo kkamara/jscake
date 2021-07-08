@@ -1,5 +1,5 @@
-import fs from "fs";
-import axios from "axios";
+import fs from "fs"
+import axios from "axios"
 
 class ImageHelper {
     /**
@@ -11,9 +11,9 @@ class ImageHelper {
         switch (type) {
             case "jpeg":
             case "jpg":
-                return "image/jpeg";
+                return "image/jpeg"
             case "png":
-                return "image/png";
+                return "image/png"
         }
     }
 
@@ -32,10 +32,10 @@ class ImageHelper {
                         response.data
                         .pipe(fs.createWriteStream(imagePath))
                         .on('finish', () => resolve(true))
-                        .on('error', (err: Error) => reject(err));
+                        .on('error', (err: Error) => reject(err))
                     })
-            );
+            )
     }
 }
 
-export default new ImageHelper();
+export default new ImageHelper()

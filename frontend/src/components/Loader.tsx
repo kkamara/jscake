@@ -1,14 +1,14 @@
-import React from "react";
-import BeatLoader from "react-spinners/BeatLoader";
-import { Helmet } from 'react-helmet';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Container from '@material-ui/core/Container';
+import React from "react"
+import BeatLoader from "react-spinners/BeatLoader"
+import { Helmet } from 'react-helmet'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import Container from '@material-ui/core/Container'
 
 type Props = {
-    title?: string;
-    color?: string;
-    loading?: boolean;
-    override?: string;
+    title?: string
+    color?: string
+    loading?: boolean
+    override?: string
 }
 
 const Loader = ({ 
@@ -30,6 +30,6 @@ const Loader = ({
                 size={50} 
             />
         </Container>
-    </React.Fragment>;
+    </React.Fragment>
 
-export default Loader;
+export default Loader

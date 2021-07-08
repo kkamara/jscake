@@ -1,5 +1,5 @@
 
-type Fields = { [key: string]: Array<string> };
+type Fields = { [key: string]: Array<string> }
 
 type File = {
     fieldName: string,
@@ -7,15 +7,15 @@ type File = {
     path: string,
     headers: Object,
     size: number
-};
+}
 
 type Form = {
     fields?: Fields, 
     file?: File,
-};
+}
 
 export type {
     Fields,
     File,
     Form,
-};
+}

@@ -1,20 +1,20 @@
-import faker from "faker";
-import chai from "chai";
+import faker from "faker"
+import chai from "chai"
 
-import numberHelper from "../../helper/number";
-import { Fields } from "../../types/form_types";
-import { CakeResult } from "../../types/mysql_types";
+import numberHelper from "../../helper/number"
+import { Fields } from "../../types/form_types"
+import { CakeResult } from "../../types/mysql_types"
 import { 
     createCakeQuery, 
     fetchCakesQuery,
     dropCakeQuery,
     dropWhereCakeQuery,
     whereCakeQuery,
-} from "./cake";
+} from "./cake"
 
-const assert = chai.assert;
+const assert = chai.assert
 
-const testName: Fields = { name: ["test product"] };
+const testName: Fields = { name: ["test product"] }
 
 const testData: CakeResult = Object.assign(
     {
@@ -24,31 +24,31 @@ const testData: CakeResult = Object.assign(
         yumFactor: numberHelper.getRandomArbitrary(1, 5),
     },
     testName,
-);
+)
 
 describe("Runs cake tests", () => {
     describe("Create cake", async () => {
-        const res = await createCakeQuery(testData);
-        assert.isNotFalse(res);
-    });
+        const res = await createCakeQuery(testData)
+        assert.isNotFalse(res)
+    })
     describe("Fetch cakes", async () => {
-        const res = await fetchCakesQuery();
-        assert.isNotFalse(res);
-    });
+        const res = await fetchCakesQuery()
+        assert.isNotFalse(res)
+    })
     describe("Where cake", async () => {
-        const res = await whereCakeQuery(testName);
-        assert.isNotFalse(res);
-    });
+        const res = await whereCakeQuery(testName)
+        assert.isNotFalse(res)
+    })
     describe("Drop where cake", async () => {
-        const res = await dropWhereCakeQuery(testName);
-        assert.isNotFalse(res);
-    });
+        const res = await dropWhereCakeQuery(testName)
+        assert.isNotFalse(res)
+    })
     describe("Drop cakes", async () => {
-        const res = await fetchCakesQuery();
-        assert.isNotFalse(res);
+        const res = await fetchCakesQuery()
+        assert.isNotFalse(res)
         for(const { id } of res) {
-            const res2 = await dropCakeQuery(id);
-            assert.isNotFalse(res2);
+            const res2 = await dropCakeQuery(id)
+            assert.isNotFalse(res2)
         }
-    });
-});
+    })
+})

@@ -1,40 +1,40 @@
-import React from 'react';
-import axios from 'axios';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Paper from '@material-ui/core/Paper';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
+import React from 'react'
+import axios from 'axios'
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableContainer from '@material-ui/core/TableContainer'
+import TableHead from '@material-ui/core/TableHead'
+import TablePagination from '@material-ui/core/TablePagination'
+import TableRow from '@material-ui/core/TableRow'
+import TableSortLabel from '@material-ui/core/TableSortLabel'
+import Paper from '@material-ui/core/Paper'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Switch from '@material-ui/core/Switch'
 
-import Button from '@material-ui/core/Button';
+import Button from '@material-ui/core/Button'
 
-import { API } from '../../constants';
-import Loader from '../Loader';
-import ViewModal from '../Modals/ViewModal';
-import DeleteModal from '../Modals/DeleteModal';
-import EditModal from '../Modals/EditModal';
-import CreateModal from '../Modals/CreateModal';
-import { Data } from '../../common/interfaces';
-import * as partials from '../../common/partials';
+import { API } from '../../constants'
+import Loader from '../Loader'
+import ViewModal from '../Modals/ViewModal'
+import DeleteModal from '../Modals/DeleteModal'
+import EditModal from '../Modals/EditModal'
+import CreateModal from '../Modals/CreateModal'
+import { Data } from '../../common/interfaces'
+import * as partials from '../../common/partials'
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
-    return -1;
+    return -1
   }
   if (b[orderBy] > a[orderBy]) {
-    return 1;
+    return 1
   }
-  return 0;
+  return 0
 }
 
-type Order = 'asc' | 'desc';
+type Order = 'asc' | 'desc'
 
 function getComparator<Key extends keyof any>(
   order: Order,
@@ -42,24 +42,24 @@ function getComparator<Key extends keyof any>(
 ): (a: { [key in Key]: number | string }, b: { [key in Key]: number | string }) => number {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
+    : (a, b) => -descendingComparator(a, b, orderBy)
 }
 
 function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
-  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
+  const stabilizedThis = array.map((el, index) => [el, index] as [T, number])
   stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
+    const order = comparator(a[0], b[0])
+    if (order !== 0) return order
+    return a[1] - b[1]
+  })
+  return stabilizedThis.map((el) => el[0])
 }
 
 interface HeadCell {
-  disablePadding: boolean;
-  id: keyof Data;
-  label: string;
-  numeric: boolean;
+  disablePadding: boolean
+  id: keyof Data
+  label: string
+  numeric: boolean
 }
 
 const headCells: HeadCell[] = [
@@ -67,13 +67,13 @@ const headCells: HeadCell[] = [
   { id: 'comment', numeric: true, disablePadding: false, label: 'Comment' },
   { id: 'imageUrl', numeric: false, disablePadding: false, label: 'Photo' },
   { id: 'yumFactor', numeric: true, disablePadding: false, label: 'Yum Factor' },
-];
+]
 
 interface EnhancedTableProps {
-  classes: ReturnType<typeof useStyles>;
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
-  order: Order;
-  orderBy: string;
+  classes: ReturnType<typeof useStyles>
+  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void
+  order: Order
+  orderBy: string
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
@@ -82,10 +82,10 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     order, 
     orderBy, 
     onRequestSort 
-  } = props;
+  } = props
   const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
-    onRequestSort(event, property);
-  };
+    onRequestSort(event, property)
+  }
 
   return (
     <TableHead>
@@ -113,7 +113,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         ))}
       </TableRow>
     </TableHead>
-  );
+  )
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -140,39 +140,39 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 1,
     },
   }),
-);
+)
 
 export default function HomePage() {
-  const classes = useStyles();
-  const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof Data>('name');
-  const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(true);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [loading, setLoading] = React.useState(true);
-  const [rows, setRows] = React.useState<Data[]>([]);
-  const [chosenRow, setChosenRow] = React.useState<Data|undefined>(undefined);
-  const [showViewModal, setShowViewModal] = React.useState(false);
-  const [showDeleteModal, setShowDeleteModal] = React.useState(false);
-  const [showEditModal, setShowEditModal] = React.useState(false);
-  const [showCreateModal, setShowCreateModal] = React.useState(false);
+  const classes = useStyles()
+  const [order, setOrder] = React.useState<Order>('asc')
+  const [orderBy, setOrderBy] = React.useState<keyof Data>('name')
+  const [page, setPage] = React.useState(0)
+  const [dense, setDense] = React.useState(true)
+  const [rowsPerPage, setRowsPerPage] = React.useState(5)
+  const [loading, setLoading] = React.useState(true)
+  const [rows, setRows] = React.useState<Data[]>([])
+  const [chosenRow, setChosenRow] = React.useState<Data|undefined>(undefined)
+  const [showViewModal, setShowViewModal] = React.useState(false)
+  const [showDeleteModal, setShowDeleteModal] = React.useState(false)
+  const [showEditModal, setShowEditModal] = React.useState(false)
+  const [showCreateModal, setShowCreateModal] = React.useState(false)
 
   const getData = async () => {
-      const res = await axios.get(`${API}cake/list`);
+      const res = await axios.get(`${API}cake/list`)
       if (200 === res.status) {
-        setLoading(false);
-        setRows(res.data.data);
+        setLoading(false)
+        setRows(res.data.data)
       } else {
-        throw new Error("Something went wrong");
+        throw new Error("Something went wrong")
       }
-  };
+  }
 
   React.useEffect(() => {
-      getData();
-  }, []);
+      getData()
+  }, [])
 
   if (loading === true) {
-    return <Loader />;
+    return <Loader />
   }
 
   if (true === showEditModal) {
@@ -184,7 +184,7 @@ export default function HomePage() {
           enable={showEditModal}
           data={chosenRow}
       />
-    );
+    )
   }
 
   if (true === showDeleteModal) {
@@ -195,7 +195,7 @@ export default function HomePage() {
           enable={showDeleteModal}
           data={chosenRow}
       />
-    );
+    )
   }
 
   if (true === showViewModal) {
@@ -207,7 +207,7 @@ export default function HomePage() {
           enable={showViewModal}
           data={chosenRow}
       />
-    );
+    )
   }
 
   if (true === showCreateModal) {
@@ -217,44 +217,44 @@ export default function HomePage() {
           setEnable={setShowCreateModal}
           enable={showCreateModal}
       />
-    );
+    )
   }
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
+    const isAsc = orderBy === property && order === 'asc'
+    setOrder(isAsc ? 'desc' : 'asc')
+    setOrderBy(property)
+  }
 
-  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {};
+  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {}
 
   const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
-    const row = rows.find(({ id: ID }) => id === ID);
+    const row = rows.find(({ id: ID }) => id === ID)
     if (undefined === row) {
-      return;
+      return
     }
-    setChosenRow(row);
-    setShowViewModal(true);
-  };
+    setChosenRow(row)
+    setShowViewModal(true)
+  }
 
   const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
+    setPage(newPage)
+  }
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+    setRowsPerPage(parseInt(event.target.value, 10))
+    setPage(0)
+  }
 
   const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDense(event.target.checked);
-  };
+    setDense(event.target.checked)
+  }
 
   const handleCreate = () => {
-    setShowCreateModal(true);
-  };
+    setShowCreateModal(true)
+  }
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage)
 
   return (
     <div className={classes.root}>
@@ -276,7 +276,7 @@ export default function HomePage() {
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row: Data, index: Number) => {
-                  const labelId = `enhanced-table-checkbox-${index}`;
+                  const labelId = `enhanced-table-checkbox-${index}`
 
                   return (
                     <TableRow
@@ -296,7 +296,7 @@ export default function HomePage() {
                         {row.yumFactor}
                       </TableCell>
                     </TableRow>
-                  );
+                  )
                 })}
               {emptyRows > 0 && (
                 <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
@@ -328,5 +328,5 @@ export default function HomePage() {
         Create
       </Button>
     </div>
-  );
+  )
 }

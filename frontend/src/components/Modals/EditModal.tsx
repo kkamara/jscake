@@ -1,24 +1,24 @@
-import React from 'react';
-import axios from 'axios';
-import { DropzoneDialog } from 'material-ui-dropzone';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
-import Grid from '@material-ui/core/Grid';
+import React from 'react'
+import axios from 'axios'
+import { DropzoneDialog } from 'material-ui-dropzone'
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles'
+import Modal from '@material-ui/core/Modal'
+import Backdrop from '@material-ui/core/Backdrop'
+import Fade from '@material-ui/core/Fade'
+import Grid from '@material-ui/core/Grid'
 
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Alert from '@material-ui/lab/Alert';
-import FormGroup from '@material-ui/core/FormGroup';
+import Radio from '@material-ui/core/Radio'
+import RadioGroup from '@material-ui/core/RadioGroup'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import FormControl from '@material-ui/core/FormControl'
+import FormLabel from '@material-ui/core/FormLabel'
+import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
+import Alert from '@material-ui/lab/Alert'
+import FormGroup from '@material-ui/core/FormGroup'
 
-import { Data } from '../../common/interfaces';
-import { API } from '../../constants';
+import { Data } from '../../common/interfaces'
+import { API } from '../../constants'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,146 +34,146 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(2, 4, 3),
     },
   }),
-);
+)
 
 type Props = {
-  setCollection: Function;
-  setEnable: Function;
-  enable: boolean;
-  setData: Function;
-  data: Data|undefined;
-};
+  setCollection: Function
+  setEnable: Function
+  enable: boolean
+  setData: Function
+  data: Data|undefined
+}
 
 export default function EditModal(props: Props) {
-  const classes = useStyles();
-  const [uploadingImage, setUploadingImage] = React.useState(false);
-  const [newImage, setNewImage] = React.useState<any>(undefined);
-  const [submittingImage, setSubmittingImage] = React.useState(false);
-  const [errors, setErrors] = React.useState<string[]>([]);
-  const [editObject, setEditObject] = React.useState<Data|undefined>(props.data);
+  const classes = useStyles()
+  const [uploadingImage, setUploadingImage] = React.useState(false)
+  const [newImage, setNewImage] = React.useState<any>(undefined)
+  const [submittingImage, setSubmittingImage] = React.useState(false)
+  const [errors, setErrors] = React.useState<string[]>([])
+  const [editObject, setEditObject] = React.useState<Data|undefined>(props.data)
 
   if (undefined === props.data) {
-    props.setEnable(false);
+    props.setEnable(false)
   }
 
   const handleBack = () => {
-    props.setEnable(false);
-  };
+    props.setEnable(false)
+  }
 
   const handleClose = () => {
-    props.setEnable(false);
-  };
+    props.setEnable(false)
+  }
 
   React.useEffect(() => {
-    setEditObject(props.data);
-  }, []);
+    setEditObject(props.data)
+  }, [])
 
   React.useEffect(() => {
-    handleErrors();
-  }, [editObject]);
+    handleErrors()
+  }, [editObject])
 
   const handleUploadingImageChoice = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const val = (event.target as HTMLInputElement).value;
+    const val = (event.target as HTMLInputElement).value
     switch(val) {
         case 'true':
-            setSubmittingImage(true);
-            setUploadingImage(true);
-            break;
+            setSubmittingImage(true)
+            setUploadingImage(true)
+            break
         case 'false':
-            setNewImage(false);
-            setUploadingImage(false);
-            setSubmittingImage(false);
-            break;
+            setNewImage(false)
+            setUploadingImage(false)
+            setSubmittingImage(false)
+            break
     }
-  };
+  }
 
   const handleSubmit = async () => {
-    const data = (editObject as Data);
-    const params = new FormData();
+    const data = (editObject as Data)
+    const params = new FormData()
     if (undefined !== newImage) {
-      params.append('image', newImage);
+      params.append('image', newImage)
     }
-    params.append('name', data.name);
-    params.append('yumFactor', data.yumFactor.toString());
-    params.append('comment', data.comment);
+    params.append('name', data.name)
+    params.append('yumFactor', data.yumFactor.toString())
+    params.append('comment', data.comment)
 
     try {
-      const res = await axios.patch(`${API}cake/${data.id}`, params);
-      const { data: newData } = res.data;
-      setNewImage(false);
-      props.setEnable(false);
+      const res = await axios.patch(`${API}cake/${data.id}`, params)
+      const { data: newData } = res.data
+      setNewImage(false)
+      props.setEnable(false)
 
-      props.setData(newData);
+      props.setData(newData)
 
       props.setCollection((prevState: any) => {
-        const newState: Data[] = [ ...prevState ];
+        const newState: Data[] = [ ...prevState ]
         for (const key in newState) {
-          const { id } = newState[key];
+          const { id } = newState[key]
           if (id === data.id) {
-            newState[key] = newData;
+            newState[key] = newData
           }
         }
 
-        return newState;
-      });
+        return newState
+      })
     } catch (err) {
-        setErrors(err.response.data.errors);
+        setErrors(err.response.data.errors)
     }
-  };
+  }
 
   const handleErrors = () => {
-    const errors: string[] = [];
-    const data = (editObject as Data);
+    const errors: string[] = []
+    const data = (editObject as Data)
 
     if (3 > data.name.length) {
-      errors.push("The name field must be at least 3 characters.");
+      errors.push("The name field must be at least 3 characters.")
     } else if (30 < data.name.length) {
-      errors.push("The name field must not exceed 30 characters.");
+      errors.push("The name field must not exceed 30 characters.")
     }
 
     if (3 > data.comment.length) {
-      errors.push("The comment field must be at least 3 characters.");
+      errors.push("The comment field must be at least 3 characters.")
     } else if (50 < data.comment.length) {
-      errors.push("The comment field must not exceed 30 characters.");
+      errors.push("The comment field must not exceed 30 characters.")
     }
 
-    const yumFactorConstraintErr = "The yumFactor field must be between 1 - 5 inclusive.";
+    const yumFactorConstraintErr = "The yumFactor field must be between 1 - 5 inclusive."
     if (false === /^\d+$/.test(data.yumFactor.toString())) {
-        errors.push("The yumFactor field must be an integer type.");
+        errors.push("The yumFactor field must be an integer type.")
     } else if (1 > data.yumFactor) {
-        errors.push(yumFactorConstraintErr);
+        errors.push(yumFactorConstraintErr)
     } else if (5 < data.yumFactor) {
-        errors.push(yumFactorConstraintErr);
+        errors.push(yumFactorConstraintErr)
     }
 
-    setErrors(prevState => [ ...errors ]);
-  };
+    setErrors(prevState => [ ...errors ])
+  }
  
   const onChange = (event: any) => {
-    const { name, value } = (event.target as HTMLInputElement);
+    const { name, value } = (event.target as HTMLInputElement)
     setEditObject((prevState: any) => {
       if ('yumFactor' === name) {
         return {
           ...prevState,
           [name]: Number.parseInt(value),
-        };
+        }
       }
       return {
         ...prevState,
         [name]: value,
-      };
-    });
-  };
+      }
+    })
+  }
  
   const handleSaveImage = (files: File[]) => {
-    setNewImage(files[0]);
-    setSubmittingImage(false);
-  };
+    setNewImage(files[0])
+    setSubmittingImage(false)
+  }
  
   const cancelSaveImage = () => {
-    setSubmittingImage(false);
-    setNewImage(false);
-  };
+    setSubmittingImage(false)
+    setNewImage(false)
+  }
 
   return (
     <div>
@@ -302,5 +302,5 @@ export default function EditModal(props: Props) {
         </Fade>
       </Modal>
     </div>
-  );
-};
+  )
+}

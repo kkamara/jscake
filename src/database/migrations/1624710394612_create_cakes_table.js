@@ -7,4 +7,4 @@ module.exports = {
         yumFactor smallint NOT NULL
     );`,
     "down": `DROP TABLE cakes`
-};
+}

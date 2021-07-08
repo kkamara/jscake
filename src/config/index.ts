@@ -1,5 +1,5 @@
-import dotenv from "dotenv";
-import path from 'path';
+import dotenv from "dotenv"
+import path from 'path'
 
 if (process.env.NODE_ENV !== "production") {
     const parseEnvFile = dotenv.config({
@@ -9,17 +9,17 @@ if (process.env.NODE_ENV !== "production") {
             '../',
             '.env',
         ),
-    });
+    })
 
     if (parseEnvFile.error) {
-        throw parseEnvFile.error;
+        throw parseEnvFile.error
     }
 }
 
 const config = {
     asset: path => {
-        if (path[0] === "/") return `${path}`;
-        return `/${path}`;
+        if (path[0] === "/") return `${path}`
+        return `/${path}`
     },
     appName: process.env.APP_NAME,
     nodeEnv: process.env.NODE_ENV,
@@ -38,6 +38,6 @@ const config = {
     awsSecret: process.env.AWS_SECRET_ACCESS_KEY,
     awsBucket: process.env.AWS_BUCKET,
     awsBucketPath: process.env.AWS_BUCKET_PATH,
-};
+}
 
-export default config;
+export default config

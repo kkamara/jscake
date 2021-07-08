@@ -1,11 +1,11 @@
-import axios from 'axios';
+import axios from 'axios'
 
 class API {
     /** 
      * HTTP lib for network requests 
      * @prop http 
      */
-    protected http = '';
+    protected http = ''
 
     /**
      * Base class constructor
@@ -14,8 +14,8 @@ class API {
      * @return void
      */
     constructor(http=null) {
-        this.http = null !== http ? http : axios;
+        this.http = null !== http ? http : axios
     }
 }
 
-export default API;
+export default API

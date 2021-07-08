@@ -1,7 +1,7 @@
-import express from "express";
+import express from "express"
 
-import multiparty from "multiparty";
-import { Form } from "../types/form_types";
+import multiparty from "multiparty"
+import { Form } from "../types/form_types"
 
 class FormHelper {
     /**
@@ -11,25 +11,25 @@ class FormHelper {
      */
     getMultiparseForm(req: express.Request): Promise<Form> {
         return new Promise((resolve, reject) => {
-            var form = new multiparty.Form();
+            var form = new multiparty.Form()
             form.parse(req, function(err, fields, files) {
                 if (err) {
-                    return reject(err);
+                    return reject(err)
                 }
-                const result = { fields: null, file: null };
+                const result = { fields: null, file: null }
                 if (Object.keys(fields).length) {
-                    result.fields = fields;
+                    result.fields = fields
                 }
                 if (
                     typeof files["image"] !== 'undefined'
                     && files["image"] !== null
                 ) {
-                    result.file = files.image[0];
+                    result.file = files.image[0]
                 }
-                return resolve(result);
-            });
-        });
+                return resolve(result)
+            })
+        })
     }
 }
 
-export default new FormHelper();
+export default new FormHelper()

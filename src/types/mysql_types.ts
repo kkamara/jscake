@@ -8,7 +8,7 @@ type QueryResults = {
     message: string,
     protocol41: boolean,
     changedRows: Number,
-};
+}
 
 type CakeResult = {
     id?: Number,
@@ -16,9 +16,9 @@ type CakeResult = {
     comment: string,
     imageUrl: string,
     yumFactor: Number,
-};
+}
 
 export type {
     QueryResults,
     CakeResult,
-};
+}
