@@ -71,16 +71,18 @@ const headCells: HeadCell[] = [
 
 interface EnhancedTableProps {
   classes: ReturnType<typeof useStyles>;
-  numSelected: number;
   onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
-  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
   orderBy: string;
-  rowCount: number;
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-  const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+  const { 
+    classes, 
+    order, 
+    orderBy, 
+    onRequestSort 
+  } = props;
   const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property);
   };
@@ -266,12 +268,9 @@ export default function HomePage() {
           >
             <EnhancedTableHead
               classes={classes}
-              numSelected={0}
               order={order}
               orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
             />
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
