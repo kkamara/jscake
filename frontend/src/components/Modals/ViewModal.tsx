@@ -67,6 +67,7 @@ export default function ViewModal(props: Props) {
         BackdropProps={{
           timeout: 500,
         }}
+        data-testid='view-modal'
       >
         <Fade 
           in={props.enable}
@@ -89,6 +90,7 @@ export default function ViewModal(props: Props) {
                     onClick={handleUpdate}
                     fontSize="large"
                     color='action'
+                    data-testid='edit-button'
                   />      
                 </Grid>
               </Grid>
@@ -99,6 +101,7 @@ export default function ViewModal(props: Props) {
                     onClick={handleDelete}
                     fontSize="large"
                     color='secondary'
+                    data-testid='del-button'
                   />
                 </Grid>
               </Grid>

@@ -99,6 +99,7 @@ export default function DeleteModal(props: Props) {
         BackdropProps={{
           timeout: 500,
         }}
+        data-testid='del-modal'
       >
         <Fade 
           in={props.enable}

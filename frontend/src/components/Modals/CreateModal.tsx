@@ -175,6 +175,7 @@ export default function CreateModal(props: Props) {
         BackdropProps={{
           timeout: 500,
         }}
+        data-testid='create-modal'
       >
         <Fade 
           in={props.enable}

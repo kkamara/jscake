@@ -255,7 +255,7 @@ export default function HomePage() {
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage)
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} data-testid="cakes-container">
       <Paper className={classes.paper}>
         <TableContainer>
           <Table
@@ -284,6 +284,7 @@ export default function HomePage() {
                       tabIndex={-1}
                       key={row.id}
                       selected={false}
+                      data-testid={`cake-${row.id}`}
                     >
                       <TableCell component='th' id={labelId} scope='row' padding='none'>
                         {row.name}

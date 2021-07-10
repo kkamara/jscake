@@ -188,6 +188,7 @@ export default function EditModal(props: Props) {
         BackdropProps={{
           timeout: 500,
         }}
+        data-testid='edit-modal'
       >
         <Fade 
           in={props.enable}
