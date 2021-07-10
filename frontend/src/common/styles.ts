@@ -1,4 +1,4 @@
 
 export const button = {
-    cursor: 'pointer',
+  cursor: 'pointer',
 }
