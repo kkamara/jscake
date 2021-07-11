@@ -26,23 +26,23 @@ const testData: CakeResult = Object.assign({
 testName,)
 
 describe('Runs cake tests', () => {
-  describe('Create cake', async () => {
+  it('Create cake', async () => {
     const res = await createCakeQuery(testData)
     assert.isNotFalse(res)
   })
-  describe('Fetch cakes', async () => {
+  it('Fetch cakes', async () => {
     const res = await fetchCakesQuery()
     assert.isNotFalse(res)
   })
-  describe('Where cake', async () => {
+  it('Where cake', async () => {
     const res = await whereCakeQuery(testName)
     assert.isNotFalse(res)
   })
-  describe('Drop where cake', async () => {
+  it('Drop where cake', async () => {
     const res = await dropWhereCakeQuery(testName)
     assert.isNotFalse(res)
   })
-  describe('Drop cakes', async () => {
+  it('Drop cakes', async () => {
     const res = await fetchCakesQuery()
     assert.isNotFalse(res)
     for (const { id } of res) {

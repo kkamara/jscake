@@ -11,12 +11,12 @@ const filelocation = '/tmp/sample.jpg'
 const bucketlocation = 'uploads/sample.jpg'
 
 describe('Runs image tests', () => {
-  describe('Test successful upload', async () => {
+  it('Test successful upload', async () => {
     imageHelper.downloadImage(downloadFile, filelocation)
     const res = upload(filelocation, 'image/jpeg')
     assert.isNotFalse(res)
   })
-  describe('Test successful delete', async () => {
+  it('Test successful delete', async () => {
     const res = del(bucketlocation)
     assert.isNotFalse(res)
   })
