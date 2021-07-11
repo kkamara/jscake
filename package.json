@@ -11,8 +11,7 @@
     "command": "ts-node",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint --fix --ext .ts .",
-    "pre-commit": "concurrently \"npm run lint\" \"cd frontend && npm run lint\"",
-    "prepare": "husky install"
+    "pre-commit": "npm run lint"
   },
   "repository": {
     "type": "git",
