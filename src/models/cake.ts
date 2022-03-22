@@ -16,11 +16,11 @@ import {
 import config from "../config"
 
 class Cake extends API {
-    /** @var String tableName */
-    protected tableName = "cakes"
+    /** @prop protected String _tableName */
+    _tableName = "cakes"
 
-    /** @var Array<string> fields */
-    protected fields = [
+    /** @prop protected String[] _fields */
+    _fields = [
         "name",
         "comment",
         "imageUrl",
@@ -32,7 +32,7 @@ class Cake extends API {
      * @returns String
      */
     getTableName() {
-        return this.tableName
+        return this._tableName
     }
 
     /**
